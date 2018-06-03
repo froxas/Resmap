@@ -13,15 +13,12 @@ namespace Resmap.API.Controllers
     {
         private IRelationService _relationService;
 
-        public RelationController(IRelationService relationService)
-        {
-            _relationService = relationService;
-        }
+        public RelationController(IRelationService relationService) 
+            => _relationService = relationService;        
 
         [HttpGet(Name = "GetRelations")]
         public IActionResult GetRelations()
-        {
-            
+        {            
             var relationsFromRepo = _relationService.GetAllIncludes(r => r.Address, n => n.Note);            
             var relations = Mapper.Map<IEnumerable<RelationDto>>(relationsFromRepo);
             return Ok(relations);
@@ -57,9 +54,22 @@ namespace Resmap.API.Controllers
             var relationToReturn = Mapper.Map<RelationDto>(relationEntity);
 
             return CreatedAtRoute("GetRelation", 
-                new { id = relationToReturn.Id},
-                relationToReturn);
+                new { id = relationToReturn.Id}, relationToReturn);
         }
-        
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteResource(Guid id)
+        {
+            var resourceFromRepo = _relationService.Get(id);
+
+            if (resourceFromRepo == null)            
+                return NotFound();            
+
+            _relationService.Delete(resourceFromRepo);
+            if (!_relationService.Save())
+                throw new Exception($"Deleting relation {id} failed on save.");
+
+            return NoContent();
+        }            
     }
 }

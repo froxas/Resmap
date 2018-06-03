@@ -12,10 +12,8 @@ namespace Resmap.API.Controllers
     {
         private IEmployeeService _employeeService;
                 
-        public EmployeeController(IEmployeeService employeeService)
-        {
-            _employeeService = employeeService;
-        }
+        public EmployeeController(IEmployeeService employeeService) 
+            => _employeeService = employeeService;        
 
         [HttpGet(Name = "GetEmployees")]
         public IActionResult GetEmployees()
@@ -36,8 +34,7 @@ namespace Resmap.API.Controllers
             {
                 var employee = Mapper.Map<EmployeeDto>(employeeFromRepo);
                 return Ok(employee);
-            }
-            
+            }            
         }
     }
 }

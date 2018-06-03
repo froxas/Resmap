@@ -17,21 +17,16 @@ namespace Resmap.API.Data
             dbSet = Context.Set<TEntity>();
         }       
 
-        public void Add(TEntity entity)
-        {
-            Context.Add(entity);
-        }
-     
-        public TEntity Get(Guid id)
-        {
-            return dbSet.Find(id);
-        }       
+        public void Add(TEntity entity) => Context.Add(entity);
+             
+        public TEntity Get(Guid id) => dbSet.Find(id);               
                 
-        public IEnumerable<TEntity> GetAll()
-        {
-            return dbSet.ToList();
-        }
+        public IEnumerable<TEntity> GetAll() => dbSet.ToList();
 
+        public void Delete(TEntity entity) => Context.Remove(entity);
+
+        public bool Save() => (Context.SaveChanges() >= 0);
+        
         public IQueryable<TEntity> GetAllIncludes(
             params Expression<Func<TEntity, object>>[] includeExpressions)
         {            
@@ -57,12 +52,6 @@ namespace Resmap.API.Data
             }
 
             return dbSet.FirstOrDefault(predicate);
-        }      
-
-        public bool Save()
-        {       
-            return (Context.SaveChanges() >= 0);
-        }
-
+        }                                
     }
 }

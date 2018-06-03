@@ -41,6 +41,12 @@ namespace Resmap.API.Data
         void Add(TEntity entity);
 
         /// <summary>
+        /// Deletes entity from db
+        /// </summary>
+        /// <param name="id"></param>
+        void Delete(TEntity Entity);
+
+        /// <summary>
         /// Reads entity by id and returns with all includes
         /// </summary>
         /// <param name="predicate"></param>
