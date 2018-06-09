@@ -9,6 +9,7 @@ import { Counter } from './components/Counter';
 import { Auth } from './components/Auth/Auth';
 import { Login } from './components/Auth/Login';
 import { Register } from './components/Auth/Register';
+import { Scheduler } from './components/Scheduler/Scheduler';
 
 // You can import style files in ./App.js and add global styles in ./App.css
 import '@progress/kendo-theme-default/dist/all.css';
@@ -27,6 +28,7 @@ export default class App extends Component {
         <Route path='/login' component={Login} />  
         <Route path='/register' component={Register} />  
         <Route path='/Auth' component={Auth} />  
+        <Route path='/scheduler' component={Scheduler} />  
       </Layout>      
     );
   }

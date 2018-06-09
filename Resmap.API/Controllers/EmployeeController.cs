@@ -16,7 +16,7 @@ namespace Resmap.API.Controllers
         public EmployeeController(IEmployeeService employeeService) 
             => _employeeService = employeeService;        
 
-        [HttpGet(Name = "GetEmployees")]
+        [HttpGet(Name = nameof(GetEmployees))]
         public IActionResult GetEmployees()
         {
             var employeesFromRepo = _employeeService.GetAllIncludes(r => r.Address, n => n.Note);
@@ -24,7 +24,7 @@ namespace Resmap.API.Controllers
             return Ok(employees);                      
         }
 
-        [HttpGet("{id}", Name = "GetEmployee")]
+        [HttpGet("{id}", Name = nameof(GetEmployee))]
         public IActionResult GetEmployee(Guid id)
         {
             var employeeFromRepo = _employeeService.GetById(e => e.Id == id, c => c.Address, n => n.Note);

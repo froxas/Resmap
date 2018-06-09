@@ -38,6 +38,11 @@ export class NavMenu extends Component {
                 <Glyphicon glyph='th-list' /> Employees
               </NavItem>
             </LinkContainer>     
+            <LinkContainer to={'/scheduler'}>
+              <NavItem>
+                <Glyphicon glyph='th-list' /> Scheduler
+              </NavItem>
+            </LinkContainer>     
            
           </Nav>
         </Navbar.Collapse>
