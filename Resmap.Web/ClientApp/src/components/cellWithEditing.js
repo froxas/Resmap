@@ -13,7 +13,7 @@ export default function cellWithEditing(edit, remove) {
                     </button>
                     &nbsp;
                     <button
-                        className="k-button k-grid-remove-command"                        
+                        className="k-button k-grid-remove-command"                                               
                     >
                         Remove
                     </button>

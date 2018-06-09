@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Resmap.API.Data;
 using Resmap.API.Models;
 using Resmap.API.Services;
 using System;
@@ -35,6 +36,25 @@ namespace Resmap.API.Controllers
                 var employee = Mapper.Map<EmployeeDto>(employeeFromRepo);
                 return Ok(employee);
             }            
+        }
+
+        [HttpPost]
+        public IActionResult CreateEmployee([FromBody] EmployeeForCreationDto employee)
+        {
+            if (employee == null)
+                return BadRequest();
+
+            var employeeEntity = Mapper.Map<EmployeeForCreationDto, Employee>(employee);
+
+            _employeeService.Add(employeeEntity);
+
+            if (!_employeeService.Save())
+                throw new Exception("Creating employee failed on save.");
+
+            var employeeToReturn = Mapper.Map<EmployeeDto>(employeeEntity);
+
+            return CreatedAtRoute("GetEmployee",
+                new { id = employeeToReturn.Id }, employeeToReturn);
         }
     }
 }

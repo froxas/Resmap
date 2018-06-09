@@ -11,9 +11,10 @@ using System;
 namespace Resmap.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180607121101_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,6 +134,8 @@ namespace Resmap.API.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256);
 
@@ -163,6 +166,8 @@ namespace Resmap.API.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("LockoutEnabled");
 

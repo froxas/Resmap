@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// ES2015 module syntax
 import { Grid, GridColumn as Column, GridCell, GridToolbar  } from '@progress/kendo-react-grid';
 import { orderBy } from '@progress/kendo-data-query';
 import cellWithEditing from './cellWithEditing.js';
@@ -9,10 +8,10 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
-      forecasts: [],
-      loading: true,
-      productInEdit: undefined 
+      this.state = { 
+          forecasts: [],
+          loading: true,
+          productInEdit: undefined 
       };
 
     fetch('api/SampleData/WeatherForecasts')

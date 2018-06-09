@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Reflection;
 
 namespace Resmap.API.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -18,12 +19,14 @@ namespace Resmap.API.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<JobTitle> JobTitles { get; set; }
         public DbSet<Department> Departments { get; set; }
-        public DbSet<Relation> Relations { get; set; }
+        public DbSet<Relation> Relations { get; set; }        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
+                /*
+                #region Soft delete configuration
                 // 1. Add the IsDeleted property
                 //entityType.GetOrAddProperty("IsDeleted", typeof(bool));
 
@@ -41,6 +44,10 @@ namespace Resmap.API.Data
                 var lambda = Expression.Lambda(compareExpression, parameter);
 
                 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
+                #endregion
+                */
+
+                base.OnModelCreating(modelBuilder);
             }        
         }
     }

@@ -19,8 +19,8 @@ namespace Resmap.API.Data
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        TEntity Get(Guid id); 
-        
+        TEntity Get(Guid id);
+
         /// <summary>
         /// Read all entities
         /// </summary>

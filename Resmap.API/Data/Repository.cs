@@ -19,8 +19,8 @@ namespace Resmap.API.Data
 
         public void Add(TEntity entity) => Context.Add(entity);
              
-        public TEntity Get(Guid id) => dbSet.Find(id);               
-                
+        public TEntity Get(Guid id) => dbSet.Find(id);
+
         public IEnumerable<TEntity> GetAll() => dbSet.ToList();
 
         public void Delete(TEntity entity) => Context.Remove(entity);

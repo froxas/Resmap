@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Resmap.API.Models
+﻿namespace Resmap.API.Models
 {
-    public class EmployeeDto
+    public class EmployeeForCreationDto
     {
-        public Guid Id { get; set; }
-        public string EmployeeId { get; set; }
-        public string Name { get; set; }
+        public string EmployeeID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string JobTitle { get; set; }
         public string Department { get; set; }
         public bool IsSubcontractor { get; set; }
@@ -15,3 +13,4 @@ namespace Resmap.API.Models
         public NoteDto Note { get; set; }
     }
 }
+
