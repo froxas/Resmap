@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Resmap.API.Models;
+using Resmap.Data;
 using Resmap.Data.Services;
 using Resmap.Domain;
 using System;
@@ -11,15 +12,15 @@ namespace Resmap.API.Controllers
     [Route("api/relations")]
     public class RelationController : Controller
     {
-        private IRelationService _relationService;
+        private IRelationService _relationService;                   
 
         public RelationController(IRelationService relationService) 
-            => _relationService = relationService;        
+            => _relationService = relationService;                              
 
         [HttpGet(Name = nameof(GetRelations))]
         public IActionResult GetRelations()
         {            
-            var relationsFromRepo = _relationService.GetAllIncludes(r => r.Address, n => n.Note);            
+            var relationsFromRepo = _relationService.GetAllIncludes(a => a.Address, n => n.Note);            
             var relations = Mapper.Map<IEnumerable<RelationDto>>(relationsFromRepo);
             return Ok(relations);
         }
@@ -60,7 +61,7 @@ namespace Resmap.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteRelation(Guid id)
         {
-            var resourceFromRepo = _relationService.Get(id);
+            var resourceFromRepo = _relationService.GetById(r => r.Id == id, a => a.Address);
 
             if (resourceFromRepo == null)            
                 return NotFound();            

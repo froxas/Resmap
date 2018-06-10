@@ -21,7 +21,7 @@ namespace Resmap.Data
         public DbSet<Event> Events { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {                   
             base.OnModelCreating(modelBuilder);
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
@@ -49,7 +49,7 @@ namespace Resmap.Data
             }           
             
         }
-
+        /*
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaving();
@@ -79,7 +79,7 @@ namespace Resmap.Data
                 }
             }
         }
-
+        */
     }
 }
 
