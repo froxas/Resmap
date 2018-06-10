@@ -27,7 +27,7 @@ export class FetchEmp extends Component {
       });  
 
   }  
- 
+  
   close() {
     this.setState({ modal1Visible: false });
   }
@@ -71,7 +71,8 @@ export class FetchEmp extends Component {
           <Column field="name" title="Full name"/>
           <Column field="jobTitle" title="Job Title"/>
           <Column field="department" title="Department"/>    
-          <Column field="isSubcontractor" title="Subcontractor"/>    
+          <Column field="isSubcontractor" title="Subcontractor"/>  
+          <Column field="isDeleted" title="Deleted"/>  
           <Column
             title="Edit"
             cell={cellWithEditing(this.handleShow, this.remove)}

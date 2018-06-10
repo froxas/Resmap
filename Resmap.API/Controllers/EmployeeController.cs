@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Resmap.API.Data;
 using Resmap.API.Models;
-using Resmap.API.Services;
+using Resmap.Data.Services;
+using Resmap.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -21,6 +21,7 @@ namespace Resmap.API.Controllers
         {
             var employeesFromRepo = _employeeService.GetAllIncludes(r => r.Address, n => n.Note);
             var employees = Mapper.Map<IEnumerable<EmployeeDto>>(employeesFromRepo);
+            
             return Ok(employees);                      
         }
 
@@ -55,6 +56,22 @@ namespace Resmap.API.Controllers
 
             return CreatedAtRoute("GetEmployee",
                 new { id = employeeToReturn.Id }, employeeToReturn);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEmployee(Guid id)
+        {
+            var employeeFromRepo = _employeeService.GetById(e => e.Id == id);
+
+            if (employeeFromRepo == null)            
+                return NotFound();            
+
+            _employeeService.Delete(employeeFromRepo);
+
+            if (!_employeeService.Save())
+                throw new Exception($"Deleting employee {id} failed on save");
+
+            return NoContent();
         }
     }
 }

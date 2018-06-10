@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'antd';
 import {Register} from './Auth/Register'
 import { Steps } from 'antd';
+
 const Step = Steps.Step;
 
 export class Home extends Component {
@@ -20,7 +21,7 @@ export class Home extends Component {
   render() {
     return (
       <div>
-      <Button type="primary" onClick={() => this.setModal2Visible(true)}>Register Form</Button>
+      <Button cl type="primary" onClick={() => this.setModal2Visible(true)}>Register Form</Button>
         <Modal
           title="Register Form"
           wrapClassName="vertical-center-modal"

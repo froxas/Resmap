@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Resmap.API.Controllers
 {
@@ -11,15 +7,17 @@ namespace Resmap.API.Controllers
     {
         [HttpGet(Name = nameof(GetRoot))]
         public IActionResult GetRoot()
-        {
+        {            
             var response = new
             {
                 href = Url.Link(nameof(GetRoot), null),
-                employees = new { href = Url.Link(nameof(EmployeeController.GetEmployees), null)},
-                relations = new { href = Url.Link(nameof(RelationController.GetRelations), null) },
-            };
+                employees = new { href = Url.Link(nameof(EmployeeController.GetEmployees), null) },
+                relations = new { href = Url.Link(nameof(RelationController.GetRelations), null) },   
+                events = new { href = Url.Link(nameof(EventsController.GetEvents), null) },    
+        };          
             
             return Ok(response);
         }
+       
     }
 }

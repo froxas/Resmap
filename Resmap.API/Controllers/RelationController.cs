@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Resmap.API.Data;
 using Resmap.API.Models;
-using Resmap.API.Services;
+using Resmap.Data.Services;
+using Resmap.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -16,7 +16,7 @@ namespace Resmap.API.Controllers
         public RelationController(IRelationService relationService) 
             => _relationService = relationService;        
 
-        [HttpGet(Name = "GetRelations")]
+        [HttpGet(Name = nameof(GetRelations))]
         public IActionResult GetRelations()
         {            
             var relationsFromRepo = _relationService.GetAllIncludes(r => r.Address, n => n.Note);            
@@ -24,7 +24,7 @@ namespace Resmap.API.Controllers
             return Ok(relations);
         }
 
-        [HttpGet("{id}", Name = "GetRelation")]
+        [HttpGet("{id}", Name = nameof(GetRelation))]
         public IActionResult GetRelation(Guid id)
         {
             var relationFromRepo = _relationService.GetById(i => i.Id == id, r => r.Address, n => n.Note);
@@ -58,7 +58,7 @@ namespace Resmap.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteResource(Guid id)
+        public IActionResult DeleteRelation(Guid id)
         {
             var resourceFromRepo = _relationService.Get(id);
 

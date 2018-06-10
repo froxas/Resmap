@@ -10,6 +10,7 @@ namespace Resmap.API.Models
         public string JobTitle { get; set; }
         public string Department { get; set; }
         public bool IsSubcontractor { get; set; }
+        public bool isDeleted { get; set; }
 
         public AddressDto Address { get; set; }
         public NoteDto Note { get; set; }
