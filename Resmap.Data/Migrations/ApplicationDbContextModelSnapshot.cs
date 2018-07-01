@@ -38,23 +38,49 @@ namespace Resmap.Data.Migrations
 
                     b.Property<string>("Street");
 
+                    b.Property<Guid>("TenantId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("Resmap.Domain.Department", b =>
+            modelBuilder.Entity("Resmap.Domain.Car", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Model");
+
+                    b.Property<string>("NumberPlate");
+
+                    b.Property<Guid>("TenantId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("Resmap.Domain.Contact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ContactPerson");
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<Guid>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contact");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Employee", b =>
@@ -63,6 +89,8 @@ namespace Resmap.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("AddressId");
+
+                    b.Property<Guid?>("ContactId");
 
                     b.Property<string>("Department");
 
@@ -80,9 +108,13 @@ namespace Resmap.Data.Migrations
 
                     b.Property<Guid?>("NoteId");
 
+                    b.Property<Guid>("TenantId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("ContactId");
 
                     b.HasIndex("NoteId");
 
@@ -94,33 +126,40 @@ namespace Resmap.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("EmployeeId");
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
-                    b.Property<DateTime>("From");
+                    b.Property<DateTime>("End");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<DateTime>("Till");
+                    b.Property<Guid>("Resource");
+
+                    b.Property<DateTime>("Start");
+
+                    b.Property<Guid>("TenantId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
+                    b.ToTable("Event");
 
-                    b.ToTable("Events");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Event");
                 });
 
-            modelBuilder.Entity("Resmap.Domain.JobTitle", b =>
+            modelBuilder.Entity("Resmap.Domain.LabelEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<Guid>("TenantId");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobTitles");
+                    b.ToTable("LabelEntity");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Note", b =>
@@ -130,11 +169,33 @@ namespace Resmap.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<Guid>("TenantId");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
                     b.ToTable("Note");
+                });
+
+            modelBuilder.Entity("Resmap.Domain.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Manager");
+
+                    b.Property<string>("ProjectId");
+
+                    b.Property<Guid>("TenantId");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Relation", b =>
@@ -144,13 +205,17 @@ namespace Resmap.Data.Migrations
 
                     b.Property<Guid?>("AddressId");
 
+                    b.Property<Guid?>("ContactId");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<Guid?>("NoteId");
 
                     b.Property<string>("RelationId");
 
-                    b.Property<Guid?>("RelationTypeId");
+                    b.Property<int>("RelationType");
+
+                    b.Property<Guid>("TenantId");
 
                     b.Property<string>("Title");
 
@@ -158,25 +223,76 @@ namespace Resmap.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("NoteId");
+                    b.HasIndex("ContactId");
 
-                    b.HasIndex("RelationTypeId");
+                    b.HasIndex("NoteId");
 
                     b.ToTable("Relations");
                 });
 
-            modelBuilder.Entity("Resmap.Domain.RelationType", b =>
+            modelBuilder.Entity("Resmap.Domain.RelationTag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<Guid>("RelationId");
+
+                    b.Property<Guid>("TagId");
+
+                    b.Property<Guid>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("RelationId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("RelationTag");
+                });
+
+            modelBuilder.Entity("Resmap.Domain.Tag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("Level");
+
+                    b.Property<int>("TagType");
+
+                    b.Property<Guid>("TenantId");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
-                    b.ToTable("RelationType");
+                    b.ToTable("Tag");
+                });
+
+            modelBuilder.Entity("Resmap.Domain.CarEvent", b =>
+                {
+                    b.HasBaseType("Resmap.Domain.Event");
+
+
+                    b.ToTable("CarEvent");
+
+                    b.HasDiscriminator().HasValue("CarEvent");
+                });
+
+            modelBuilder.Entity("Resmap.Domain.EmployeeEvent", b =>
+                {
+                    b.HasBaseType("Resmap.Domain.Event");
+
+                    b.Property<Guid?>("ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("EmployeeEvent");
+
+                    b.HasDiscriminator().HasValue("EmployeeEvent");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Employee", b =>
@@ -185,17 +301,13 @@ namespace Resmap.Data.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("Resmap.Domain.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("Resmap.Domain.Note", "Note")
                         .WithMany()
                         .HasForeignKey("NoteId");
-                });
-
-            modelBuilder.Entity("Resmap.Domain.Event", b =>
-                {
-                    b.HasOne("Resmap.Domain.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Resmap.Domain.Relation", b =>
@@ -204,13 +316,33 @@ namespace Resmap.Data.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("Resmap.Domain.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("Resmap.Domain.Note", "Note")
                         .WithMany()
                         .HasForeignKey("NoteId");
+                });
 
-                    b.HasOne("Resmap.Domain.RelationType", "RelationType")
+            modelBuilder.Entity("Resmap.Domain.RelationTag", b =>
+                {
+                    b.HasOne("Resmap.Domain.Relation", "Relation")
+                        .WithMany("RelationTags")
+                        .HasForeignKey("RelationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Resmap.Domain.Tag", "Tag")
+                        .WithMany("RelationTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Resmap.Domain.EmployeeEvent", b =>
+                {
+                    b.HasOne("Resmap.Domain.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("RelationTypeId");
+                        .HasForeignKey("ProjectId");
                 });
 #pragma warning restore 612, 618
         }

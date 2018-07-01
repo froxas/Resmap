@@ -12,9 +12,8 @@ namespace Resmap.API.Controllers
             {
                 href = Url.Link(nameof(GetRoot), null),
                 employees = new { href = Url.Link(nameof(EmployeeController.GetEmployees), null) },
-                relations = new { href = Url.Link(nameof(RelationController.GetRelations), null) },   
-                events = new { href = Url.Link(nameof(EventsController.GetEvents), null) },    
-        };          
+                relations = new { href = Url.Link(nameof(RelationController.GetRelations), null) }                
+            };          
             
             return Ok(response);
         }

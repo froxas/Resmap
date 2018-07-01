@@ -22,13 +22,13 @@ namespace Resmap.Data
              
         public TEntity Get(Guid id) => dbSet.Find(id);
 
-        public IEnumerable<TEntity> GetAll() => dbSet.ToList();
+        //public IEnumerable<TEntity> GetAll() => dbSet.ToList();
 
-        public void Delete(TEntity entity) => Context.Remove(entity);
+        public void Delete(TEntity entity) => Context.Remove(entity);       
 
         public bool Save() => (Context.SaveChanges() >= 0);
         
-        public IQueryable<TEntity> GetAllIncludes(
+        public virtual IQueryable<TEntity> GetAllIncludes(
             params Expression<Func<TEntity, object>>[] includeExpressions)
         {            
             IQueryable<TEntity> query = dbSet;
@@ -37,7 +37,29 @@ namespace Resmap.Data
                 query = query.Include(includeExpression);
 
             return query;
-        }       
+        }
+
+        public virtual IQueryable<TEntity> Query(bool eager = false)
+        {
+            var query = Context.Set<TEntity>().AsQueryable();
+            if (eager)
+            {
+                foreach (var property in Context.Model.FindEntityType(typeof(TEntity)).GetNavigations())
+                    query = query.Include(property.Name);
+            }
+            return query;
+        }
+
+        public TEntity Get(Guid id, bool eager = false)
+        {
+            return Query(eager).SingleOrDefault(i => i.Id == id);
+        }
+
+        public IEnumerable<TEntity> GetAll(bool eager = false)
+        {
+            return Query(eager).ToList();
+        }
+
 
         public TEntity GetById(
             Expression<Func<TEntity, bool>> predicate,
@@ -54,5 +76,10 @@ namespace Resmap.Data
 
             return dbSet.FirstOrDefault(predicate);
         }                                
+
+        public bool Exists(Guid id)
+        {
+            return (Get(id) == null) ? false : true;            
+        }
     }
 }

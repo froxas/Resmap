@@ -40,14 +40,23 @@ namespace Resmap.API
             });
 
             services.AddMvc();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = "Resmap API", Description = "API documentation for Resmap application"
+                });
+                //var xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + @"Resmap.API.xml";
+                //c.IncludeXmlComments(xmlPath);
+            });
 
             // Add ApplicationDB context to DI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DbConnectionString")));
 
-            services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<IRelationService, RelationService>();
-            services.AddScoped<IEventService, EventService>();          
+            // Register Dependency services
+            DependencyServices.Register(services);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,28 +78,17 @@ namespace Resmap.API
                 });
             }
 
-            // configure automapper
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Employee, EmployeeDto>()
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
-                cfg.CreateMap<Relation, RelationDto>();
-                
-                cfg.CreateMap<RelationForCreationDto, Relation>();
-                cfg.CreateMap<EmployeeForCreationDto, Employee>();
-                cfg.CreateMap<AddressDto, Address>();
-                cfg.CreateMap<NoteDto, Note>();
-                cfg.CreateMap<Event, EventDto>()
-                    .ForMember(dest => dest.Start, opt => opt.MapFrom(src => src.From.ToShortDateString()))
-                    .ForMember(dest => dest.End, opt => opt.MapFrom(src => src.Till.ToShortDateString()))
-                    .ForMember(dest => dest.Resource, opt => opt.MapFrom(src => src.EmployeeId));
-            });
+            // load automapper configuration
+            AutomapperCfg.GetCfg();
 
             app.UseCors("AllowAll");
             app.UseAuthentication();
-            app.UseMvc();        
-
-
+            app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Resmap API");
+            });
         }
     }
 }

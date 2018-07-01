@@ -1,4 +1,7 @@
-﻿namespace Resmap.Domain
+﻿using System;
+using System.Collections.Generic;
+
+namespace Resmap.Domain
 {
     public class Employee : BaseEntity
     {        
@@ -8,8 +11,13 @@
         public string JobTitle { get; set; }
         public string Department { get; set; }        
         public bool IsSubcontractor { get; set; }
-               
+         
         public Address Address { get; set; }
+        public Contact Contact { get; set; }
+                
         public Note Note { get; set; }
+
+       
     }
+
 }

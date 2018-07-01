@@ -19,7 +19,7 @@ namespace Resmap.API.Controllers
         [HttpGet(Name = nameof(GetEmployees))]
         public IActionResult GetEmployees()
         {
-            var employeesFromRepo = _employeeService.GetAllIncludes(r => r.Address, n => n.Note);
+            var employeesFromRepo = _employeeService.GetEmployeesAllIncluded();
             var employees = Mapper.Map<IEnumerable<EmployeeDto>>(employeesFromRepo);
             
             return Ok(employees);                      
@@ -28,7 +28,7 @@ namespace Resmap.API.Controllers
         [HttpGet("{id}", Name = nameof(GetEmployee))]
         public IActionResult GetEmployee(Guid id)
         {
-            var employeeFromRepo = _employeeService.GetById(e => e.Id == id, c => c.Address, n => n.Note);
+            var employeeFromRepo = _employeeService.GetByIdAllIncluded(id);                
 
             if (employeeFromRepo  ==  null)            
                 return NotFound();            
@@ -61,15 +61,33 @@ namespace Resmap.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteEmployee(Guid id)
         {
-            var employeeFromRepo = _employeeService.GetById(e => e.Id == id);
+            var employeeFromRepo = _employeeService.GetByIdAllIncluded(id);
 
             if (employeeFromRepo == null)            
                 return NotFound();            
 
             _employeeService.Delete(employeeFromRepo);
-
             if (!_employeeService.Save())
                 throw new Exception($"Deleting employee {id} failed on save");
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateEmployee(Guid id, [FromBody] EmployeeForCreationDto employee)
+        {
+            if (employee == null)
+                return BadRequest();
+
+            var employeeFromRepo = _employeeService.GetByIdAllIncluded(id);
+
+            if (employeeFromRepo == null)
+                return NotFound();
+
+            Mapper.Map(employee, employeeFromRepo);
+
+            if (!_employeeService.Save())
+                throw new Exception($"Upating employee {id} failed on save");
 
             return NoContent();
         }

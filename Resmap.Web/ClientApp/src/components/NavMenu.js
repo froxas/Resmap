@@ -43,6 +43,11 @@ export class NavMenu extends Component {
                 <Glyphicon glyph='th-list' /> Scheduler
               </NavItem>
             </LinkContainer>     
+            <LinkContainer to={'/relation'}>
+              <NavItem>
+                <Glyphicon glyph='th-list' /> Relation
+              </NavItem>
+            </LinkContainer>     
            
           </Nav>
         </Navbar.Collapse>

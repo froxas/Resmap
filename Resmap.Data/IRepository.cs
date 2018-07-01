@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Resmap.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,26 @@ namespace Resmap.Data
     /// Generic repository for CRUD services
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IRepository<TEntity> where TEntity: class
+    public interface IRepository<TEntity> where TEntity : IBaseEntity
     {
         DbContext Context { get; }
-
+                
         /// <summary>
-        /// Reads a single entity by id
+        /// Gets a single entity by id 
+        /// with eager false or true
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="eager"></param>
         /// <returns></returns>
-        TEntity Get(Guid id);
+        TEntity Get(Guid id, bool eager = false);
 
         /// <summary>
-        /// Read all entities
+        /// Reads all entities
+        /// with eager false or true
         /// </summary>
+        /// <param name="eager"></param>
         /// <returns></returns>
-        IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll(bool eager = false);
 
         /// <summary>
         /// Reads all entities with includ expression
@@ -57,9 +62,17 @@ namespace Resmap.Data
             params Expression<Func<TEntity, object>>[] includeExpressions);
 
         /// <summary>
+        /// Returns true if entity exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool Exists(Guid id);
+
+        /// <summary>
         /// Saves entity added to context to db
         /// </summary>
         /// <returns></returns>
         bool Save();
+              
     }
 }
