@@ -8,6 +8,6 @@ namespace Resmap.Domain
         public TagType TagType { get; set; }
         public TagLevel Level { get; set; }
 
-        public IList<RelationTag> RelationTags { get; set; }
+        public ICollection<ProjectTag> ProjectTags { get; set; }      
     }
 }

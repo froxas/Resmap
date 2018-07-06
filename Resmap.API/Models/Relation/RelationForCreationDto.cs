@@ -1,4 +1,5 @@
 ﻿using Resmap.Domain;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Resmap.API.Models
@@ -15,7 +16,6 @@ namespace Resmap.API.Models
         public ContactDto Contact { get; set; }
         public AddressDto Address { get; set; }
         public NoteDto Note { get; set; }
-
-        // TODO: add tags
+      
     }
 }

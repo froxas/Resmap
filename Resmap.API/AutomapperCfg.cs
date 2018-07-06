@@ -12,16 +12,16 @@ namespace Resmap.API
             {
                 // Mapping other entities
                 cfg.CreateMap<Employee, EmployeeDto>()
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+                    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
                 cfg.CreateMap<Relation, RelationDto>();
                 cfg.CreateMap<RelationForCreationDto, Relation>();
                 cfg.CreateMap<EmployeeForCreationDto, Employee>();
                 cfg.CreateMap<AddressDto, Address>();
                 cfg.CreateMap<NoteDto, Note>();
                 cfg.CreateMap<ContactDto, Contact>();
-                cfg.CreateMap<RelationTagDto, RelationTag>();
-                cfg.CreateMap<TagDto, Tag>();
-                cfg.CreateMap<Project, ProjectDto>();
+                cfg.CreateMap<Project, ProjectDto>();                    
+                cfg.CreateMap<Tag, TagDto>();
+                cfg.CreateMap<ProjectTag, ProjectTagDto>();                
 
                 // Mapping events
                 cfg.CreateMap<Event, EventDto>()

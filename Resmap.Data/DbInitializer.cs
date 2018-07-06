@@ -72,74 +72,92 @@ namespace Resmap.Data
                 context.AddRange(cars);
                 context.SaveChanges();
             }
-                
+
             #endregion
 
-                /*
-                // event generator
-                if (!context.Events.Any())
+            #region Tags
+            if (!context.Tags.Any())
+            {
+                Tag[] tags = new Tag[] {
+                    new Tag { Id=Guid.NewGuid(), Title="Java", Level=TagLevel.Level1, TagType=TagType.Employee},
+                    new Tag { Id=Guid.NewGuid(), Title="C#", Level=TagLevel.Level1, TagType=TagType.Employee},
+                    new Tag { Id=Guid.NewGuid(), Title="English", Level=TagLevel.Level2, TagType=TagType.Employee},
+                    new Tag { Id=Guid.NewGuid(), Title="Design", Level=TagLevel.Level3, TagType=TagType.Employee},
+                    new Tag { Id=Guid.NewGuid(), Title="Web", Level=TagLevel.Level1, TagType=TagType.Project},
+                    new Tag { Id=Guid.NewGuid(), Title="Mobile", Level=TagLevel.Level1, TagType=TagType.Project},
+                    new Tag { Id=Guid.NewGuid(), Title="India", Level=TagLevel.Level2, TagType=TagType.Project}
+                };
+                context.AddRange(tags);
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            /*
+            // event generator
+            if (!context.Events.Any())
+            {
+                List<Event> events = new List<Event>();
+
+                for (int i = 0; i < employees.Length; i++)
                 {
-                    List<Event> events = new List<Event>();
-
-                    for (int i = 0; i < employees.Length; i++)
+                    var amount = rnd.Next(10);
+                    var date = startDate;
+                    for (int j = 0; j < amount; j++)
                     {
-                        var amount = rnd.Next(10);
-                        var date = startDate;
-                        for (int j = 0; j < amount; j++)
-                        {
-                            var e = EventGenerator(employees[i].Id, date);
-                            events.Add(e);
-                            date = e.Till;
-                            e = null;                        
-                        }
+                        var e = EventGenerator(employees[i].Id, date);
+                        events.Add(e);
+                        date = e.Till;
+                        e = null;                        
                     }
-                    context.AddRange(events);
-                    context.SaveChanges();
                 }
-                */
+                context.AddRange(events);
+                context.SaveChanges();
+            }
+            */
 
-                #region JobTitles
-                /*
-                if (!context.JobTitles.Any())
+            #region JobTitles
+            /*
+            if (!context.JobTitles.Any())
+            {
+                var lenght = jobTitlesArray.Length;
+                var jobtitles = new JobTitle[lenght];
+                for (int i = 0; i < lenght; i++)
                 {
-                    var lenght = jobTitlesArray.Length;
-                    var jobtitles = new JobTitle[lenght];
-                    for (int i = 0; i < lenght; i++)
-                    {
-                        jobtitles[i] = new JobTitle {
-                            TenantId = Guid.Parse("4d0b6b71-549f-47aa-b692-744f478e5e45"),
-                            Id = Guid.NewGuid(),
-                            Title = jobTitlesArray[i]
-                        };
-                    }
-                    context.AddRange(jobtitles);
-                    context.SaveChanges();
+                    jobtitles[i] = new JobTitle {
+                        TenantId = Guid.Parse("4d0b6b71-549f-47aa-b692-744f478e5e45"),
+                        Id = Guid.NewGuid(),
+                        Title = jobTitlesArray[i]
+                    };
                 }
-                */
-                #endregion
+                context.AddRange(jobtitles);
+                context.SaveChanges();
+            }
+            */
+            #endregion
 
-                #region Departments
-                /*
-                if (!context.Departments.Any())
+            #region Departments
+            /*
+            if (!context.Departments.Any())
+            {
+                var lenght = departmentsArray.Length;
+                var departments = new Department[lenght];
+                for (int i = 0; i < lenght; i++)
                 {
-                    var lenght = departmentsArray.Length;
-                    var departments = new Department[lenght];
-                    for (int i = 0; i < lenght; i++)
-                    {
-                        departments[i] = new Department {
-                            TenantId = Guid.Parse("4d0b6b71-549f-47aa-b692-744f478e5e45"),
-                            Id = Guid.NewGuid(),
-                            Title = departmentsArray[i]
-                        };
-                    }
-                    context.AddRange(departments);
-                    context.SaveChanges();
+                    departments[i] = new Department {
+                        TenantId = Guid.Parse("4d0b6b71-549f-47aa-b692-744f478e5e45"),
+                        Id = Guid.NewGuid(),
+                        Title = departmentsArray[i]
+                    };
                 }
-                */
-                #endregion
+                context.AddRange(departments);
+                context.SaveChanges();
+            }
+            */
+            #endregion
 
-                #region Relations
-                if (!context.Relations.Any())
+            #region Relations
+            if (!context.Relations.Any())
                 {
                 Relation[] relations = new Relation[15];
                 for (int i = 0; i < relations.Length; i++)

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Resmap.Data.Services;
 using Resmap.Domain;
 using System;
@@ -35,26 +37,35 @@ namespace Resmap.Data
         public DbSet<Car> Cars { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<CarEvent> CarEvents { get; set; }
-        public DbSet<EmployeeEvent> EmployeeEvents { get; set; }       
+        public DbSet<EmployeeEvent> EmployeeEvents { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         #endregion
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                .UseLoggerFactory(MyLoggerFactory); // Warning: Do not create a new ILoggerFactory instance each time                
+                //.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EFLogging;Trusted_Connection=True;ConnectRetryCount=0");
+        }
+
+       
+        public static readonly LoggerFactory MyLoggerFactory
+               = new LoggerFactory(new[]
+               {                   
+                    new ConsoleLoggerProvider((category, level)
+                        => category == DbLoggerCategory.Database.Command.Name //Command.Name
+                           && level == LogLevel.Information, true)
+               });
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region entities configuration
-
-            modelBuilder.Entity<RelationTag>()
-                .HasKey(t => new { t.RelationId, t.TagId });
-            modelBuilder.Entity<RelationTag>()
-                .HasOne(rt => rt.Relation)
-                .WithMany(r => r.RelationTags)
-                .HasForeignKey(rt => rt.RelationId);
-            modelBuilder.Entity<RelationTag>()
-                .HasOne(rt => rt.Tag)
-                .WithMany(r => r.RelationTags)
-                .HasForeignKey(rt => rt.TagId);           
-                       
-           
+            
+            modelBuilder.Entity<ProjectTag>()
+                .HasKey(t => new { t.ProjectId, t.TagId });
+                        
             #endregion
 
             foreach (var type in _entityTypeProvider.GetEntityTypes())
@@ -177,6 +188,8 @@ namespace Resmap.Data
             }
         }
         #endregion
-    }
+
+       
+    }    
 }
 

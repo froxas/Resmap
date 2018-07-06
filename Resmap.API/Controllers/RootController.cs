@@ -11,8 +11,8 @@ namespace Resmap.API.Controllers
             var response = new
             {
                 href = Url.Link(nameof(GetRoot), null),
-                employees = new { href = Url.Link(nameof(EmployeeController.GetEmployees), null) },
-                relations = new { href = Url.Link(nameof(RelationController.GetRelations), null) }                
+                //employees = new { href = Url.Link(nameof(EmployeeController.GetEmployees), null) },
+                
             };          
             
             return Ok(response);

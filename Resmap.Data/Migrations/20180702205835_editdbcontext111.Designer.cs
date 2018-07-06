@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resmap.Data;
 
 namespace Resmap.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180702205835_editdbcontext111")]
+    partial class editdbcontext111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,7 +223,7 @@ namespace Resmap.Data.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("ProjectTag");
+                    b.ToTable("ProjectTags");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Relation", b =>

@@ -11,11 +11,6 @@ namespace Resmap.Data.Services
         public EventService(ApplicationDbContext context)
             : base(context)
         {
-        }
-
-        public IEnumerable<TEntity> GetResources()
-        {
-            return Context.Set<TEntity>().ToList();
-        }
+        }        
     }  
 }

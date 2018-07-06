@@ -14,8 +14,6 @@ namespace Resmap.API.Models
 
         public ContactDto Contact { get; set; }
         public AddressDto Address { get; set; }
-        public NoteDto Note { get; set; }
-
-        public ICollection<RelationTagDto> RelationTags { get; set; }
+        public NoteDto Note { get; set; }        
     }
 }

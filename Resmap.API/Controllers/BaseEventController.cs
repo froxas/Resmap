@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Resmap.API.Controllers.Infrastructure;
 using Resmap.API.Models;
+using Resmap.Data;
 using Resmap.Data.Services;
 using Resmap.Domain;
 using System;
@@ -17,11 +19,11 @@ namespace Resmap.API.Controllers
         where TResourceDto : ResourceDto
     {
         private readonly IEventService<TEvent> _eventService;
-        private readonly IResourceService<TResource> _resourceService;
+        private readonly IRepository<TResource> _resourceService;
 
         public BaseEventController(
             IEventService<TEvent> eventService,
-            IResourceService<TResource> resourceService
+            IRepository<TResource> resourceService
             )
         {
             _eventService = eventService;
@@ -31,7 +33,7 @@ namespace Resmap.API.Controllers
         [HttpGet("resources")]
         public IActionResult GetResources()
         {
-            var resourcesFromRepo = _resourceService.GetAllIncludes();
+            var resourcesFromRepo = _resourceService.Get(true);
             var response = Mapper.Map<IEnumerable<TResourceDto>>(resourcesFromRepo);
             var responseObject = new { resources = response };
 
@@ -41,7 +43,7 @@ namespace Resmap.API.Controllers
         [HttpGet]
         public IActionResult GetEvents()
         {
-            var eventsFromRepo = _eventService.GetAll();
+            var eventsFromRepo = _eventService.Get();
             var response = Mapper.Map<IEnumerable<TEventDto>>(eventsFromRepo);
             var responseObject = new { events = response };
 
@@ -62,13 +64,11 @@ namespace Resmap.API.Controllers
         }
       
         [HttpPost()]
+        [ValidateModel]
         public IActionResult CreateEvent([FromBody] TEventForCreacteDto eventToCreate)
         {
-            if (eventToCreate == null)
-                return BadRequest();
-
             var eventEntity = Mapper.Map<TEventForCreacteDto, TEvent>(eventToCreate);
-            _eventService.Add(eventEntity);
+            _eventService.Create(eventEntity);
 
             if (!_eventService.Save())
                 throw new Exception("Creating event failed on save.");
@@ -79,11 +79,9 @@ namespace Resmap.API.Controllers
         }
        
         [HttpPut("{id}")]
+        [ValidateModel]
         public IActionResult UpdateEvent(Guid id, [FromBody] TEventForCreacteDto eventToUpdate)
         {
-            if (eventToUpdate == null)
-                return BadRequest();
-
             var eventFromRepo = _eventService.Get(id);
 
             if (eventFromRepo == null)

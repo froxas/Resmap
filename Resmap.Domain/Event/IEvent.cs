@@ -2,6 +2,9 @@
 
 namespace Resmap.Domain
 {
+    /// <summary>
+    /// Event interface, all event entities needs to implement it
+    /// </summary>
     public interface IEvent
     {
         /// <summary>

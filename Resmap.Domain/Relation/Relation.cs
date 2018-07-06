@@ -12,7 +12,5 @@ namespace Resmap.Domain
         public Address Address { get; set; }              
         public Note Note { get; set; }
 
-        public ICollection<RelationTag> RelationTags { get; set; }
-                
     }
 }

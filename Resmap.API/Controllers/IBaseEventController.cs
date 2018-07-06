@@ -47,11 +47,11 @@ namespace Resmap.API.Controllers
         IActionResult CreateEvent([FromBody] TEventForCreacteDto newEvent);
 
         /// <summary>
-        /// Saves event
+        /// Updates event
         /// </summary>
         /// <param name="id">Id of event for to update</param>
         /// <param name="eventToUpdate">TEventForCreacteDto view model</param>
-        /// <returns></returns>        
+        /// <returns>NoContent</returns>        
         IActionResult UpdateEvent(Guid id, [FromBody] TEventForCreacteDto eventToUpdate);
 
         /// <summary>
