@@ -18,7 +18,7 @@ namespace Resmap.API.Controllers
 
         public BaseCrudController(ICrudService<TEntity> crudService)
             => _crudService = crudService;        
-     
+          
         [HttpGet]
         public virtual IActionResult Get()
         {
