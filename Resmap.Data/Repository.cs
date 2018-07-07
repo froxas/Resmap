@@ -43,7 +43,7 @@ namespace Resmap.Data
         public bool Exists(Guid id)
             => (Get(id) == null) ? false : true;        
         
-        public virtual IQueryable<TEntity> Query(bool eager = false)
+        public IQueryable<TEntity> Query(bool eager = false)
         {
             var query = Context.Set<TEntity>().AsQueryable();
             if (eager)

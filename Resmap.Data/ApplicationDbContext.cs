@@ -65,7 +65,13 @@ namespace Resmap.Data
             
             modelBuilder.Entity<ProjectTag>()
                 .HasKey(t => new { t.ProjectId, t.TagId });
-                        
+            
+            modelBuilder.Entity<ProjectTag>()
+                .HasOne(pt => pt.Tag)
+                .WithMany("ProjectTags");
+            modelBuilder.Entity<ProjectTag>()
+                .HasOne(pt => pt.Project)
+                .WithMany("ProjectTags");                
             #endregion
 
             foreach (var type in _entityTypeProvider.GetEntityTypes())

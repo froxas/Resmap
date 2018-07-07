@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Resmap.Domain
 {
-    public class Project : BaseEntity, ITaggable
+    public class Project : BaseEntity
     {
         public string ProjectId { get; set; }
         public string Title { get; set; }
@@ -15,6 +15,6 @@ namespace Resmap.Domain
         public ICollection<ProjectTag> ProjectTags { get; set; }
 
         [NotMapped]
-        public IEnumerable<Tag> Tags { get; set; }
+        public IEnumerable<Tag> Tags => ProjectTags.Select(p => p.Tag);
     }
 }

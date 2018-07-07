@@ -6,6 +6,7 @@ using Resmap.Data;
 using Resmap.Data.Services;
 using Resmap.Domain;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Resmap.API.Controllers
@@ -13,9 +14,22 @@ namespace Resmap.API.Controllers
     [Route("api/projects")]
     public class ProjectController : BaseCrudController<Project, ProjectDto, ProjectForCreation>
     {
+        private readonly IProjectService _projectService;
+
         public ProjectController(
+            IProjectService projectService,
             ICrudService<Project> crudService) : base(crudService)
-        {            
+        {
+            _projectService = projectService;
+        }
+
+        [HttpGet]
+        public override IActionResult Get()
+        {
+            var entityFromRepo = _projectService.Get(true);
+            var response = Mapper.Map<IEnumerable<ProjectDto>>(entityFromRepo);
+
+            return Ok(response);            
         }
 
         [HttpGet("{id}")]
@@ -82,26 +96,7 @@ namespace Resmap.API.Controllers
         {
             var id = Guid.Parse("2C0D1788-FF24-47A7-957A-CE870F0B7CCA");
 
-            var projects = _crudService.Get(n => n.Note);
-                
-             var pp = _crudService.Context.Set<Project>()
-                 .Select(x => new
-                 {
-                     Id = x.Id,
-                     ProjectId = x.ProjectId,
-                     Title = x.Title,
-                     Manager = x.Manager,
-                     Notes = x.Note,
-                     Tags = x.ProjectTags.Select(t => new
-                     {
-                         Id = t.Tag.Id,
-                         Title = t.Tag.Title,
-                         Level = t.Tag.Level
-                     })
-                 }).ToList();
-
-         
-            return Ok(pp);            
+           return Ok();            
         }
     }
 }
