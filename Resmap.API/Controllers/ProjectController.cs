@@ -56,9 +56,9 @@ namespace Resmap.API.Controllers
             _crudService.Create(projectEntity);
             if (!_crudService.Save())
                 throw new Exception("Creating entity failed on save.");
-
+            
             // 4. map ProjectTags
-
+            
           
 
             //add newly created tags
@@ -86,38 +86,26 @@ namespace Resmap.API.Controllers
         [HttpPut("{id}")]        
         public override IActionResult Update(Guid id, [FromBody] ProjectForCreationDto entityToUpdate)
         {
-            /*
-            //var entityFromRepo = _crudService.Get(id, true);            
-            var entityFromRepo = _crudService.Context.Set<Project>()
-                .Select(p => new Project
-                {
-                    Id = p.Id,
-                    ProjectId = p.ProjectId,
-                    Title = p.Title,
-                    Note = p.Note,
-                    Tags = p.RelationTags.Select(t => new Tag
-                    {
-                        Id = t.Tag.Id,
-                        Title = t.Tag.Title,
-                        Level = t.Tag.Level
-                    })
-                }).FirstOrDefault(p => p.Id == id);
-
+            var entityFromRepo = _crudService.Get(id, true);
             if (entityFromRepo == null)
                 return NotFound();
 
-            Mapper.Map(entityToUpdate, entityFromRepo);
+            Mapper.Map(entityToUpdate.Tags, entityFromRepo.Tags);
 
             if (!_crudService.Save())
                 throw new Exception($"Updating entity {id} failed on save.");
-                */
+               
             return NoContent();
         }
 
         [HttpGet("tags")]
         public IActionResult GetTags()
         {
-            var id = Guid.Parse("4F6D6D32-19D0-49AC-02A6-08D5E4ADDFA7");
+            var id = Guid.Parse("01c6d88d-e80b-4b67-8f71-08d5e4320ae4");
+            var entityFromRepo = _crudService.Get(id, true);
+
+            entityFromRepo.Tags.Add(new Tag { Title="QA", Level=TagLevel.Level2});
+            _crudService.Save();
 
             return Ok();            
         }
