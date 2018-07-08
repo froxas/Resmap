@@ -20,7 +20,8 @@ namespace Resmap.API
                 cfg.CreateMap<NoteDto, Note>();
                 cfg.CreateMap<ContactDto, Contact>();
                 cfg.CreateMap<Project, ProjectDto>();
-                cfg.CreateMap<ProjectForCreationDto, Project>();                    
+                cfg.CreateMap<ProjectForCreationDto, Project>()
+                    .ForMember(x => x.Tags, opt => opt.Ignore());                    
 
                 cfg.CreateMap<Tag, TagDto>();
                 cfg.CreateMap<ProjectTag, ProjectTagDto>();                

@@ -16,6 +16,6 @@ namespace Resmap.Domain
         private ICollection<ProjectTag> ProjectTags { get; } = new List<ProjectTag>();
 
         [NotMapped]
-        public IEnumerable<Project> Projects { get; }
+        public IEnumerable<Project> Projects { get; set; }
     }
 }

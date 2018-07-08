@@ -90,7 +90,24 @@ namespace Resmap.API.Controllers
             if (entityFromRepo == null)
                 return NotFound();
 
-            Mapper.Map(entityToUpdate.Tags, entityFromRepo.Tags);
+            Mapper.Map(entityToUpdate, entityFromRepo);
+            
+            var tags = entityToUpdate.Tags;
+            entityFromRepo.Tags.Clear();
+            foreach (var tag in tags)
+            {
+                if (tag.Id == null)
+                {
+                    entityFromRepo.Tags.Add(new Tag { Title=tag.Title, Level=tag.Level});
+                } else
+                {
+                    entityFromRepo.Tags.Add(new Tag { Id=tag.Id, Title = tag.Title, Level = tag.Level });
+                }      
+            }
+
+
+            // Do Tags Stuff
+
 
             if (!_crudService.Save())
                 throw new Exception($"Updating entity {id} failed on save.");
