@@ -19,9 +19,12 @@ namespace Resmap.API
                 cfg.CreateMap<AddressDto, Address>();
                 cfg.CreateMap<NoteDto, Note>();
                 cfg.CreateMap<ContactDto, Contact>();
-                cfg.CreateMap<Project, ProjectDto>();                    
+                cfg.CreateMap<Project, ProjectDto>();
+                cfg.CreateMap<ProjectForCreationDto, Project>();                    
+
                 cfg.CreateMap<Tag, TagDto>();
                 cfg.CreateMap<ProjectTag, ProjectTagDto>();                
+                
 
                 // Mapping events
                 cfg.CreateMap<Event, EventDto>()

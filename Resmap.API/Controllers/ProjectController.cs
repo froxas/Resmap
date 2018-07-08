@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Resmap.API.Controllers.Infrastructure;
 using Resmap.API.Models;
 using Resmap.Data;
 using Resmap.Data.Services;
@@ -12,21 +13,21 @@ using System.Linq;
 namespace Resmap.API.Controllers
 {
     [Route("api/projects")]
-    public class ProjectController : BaseCrudController<Project, ProjectDto, ProjectForCreation>
+    public class ProjectController : BaseCrudController<Project, ProjectDto, ProjectForCreationDto>
     {
-        private readonly IProjectService _projectService;
+        private readonly ITagService _tagService;
 
-        public ProjectController(
-            IProjectService projectService,
+        public ProjectController(         
+            ITagService tagService,
             ICrudService<Project> crudService) : base(crudService)
         {
-            _projectService = projectService;
+            _tagService = tagService;
         }
 
         [HttpGet]
         public override IActionResult Get()
         {
-            var entityFromRepo = _projectService.Get(true);
+            var entityFromRepo = _crudService.Get("ProjectTags.Tag", true);              
             var response = Mapper.Map<IEnumerable<ProjectDto>>(entityFromRepo);
 
             return Ok(response);            
@@ -35,33 +36,55 @@ namespace Resmap.API.Controllers
         [HttpGet("{id}")]
         public override IActionResult Get(Guid id)
         {
-            /*
-            var entityFromRepo =
-                _crudService.Context.Set<Project>()
-                .Select(p => new Project
-                {                    
-                    Id = p.Id,
-                    ProjectId = p.ProjectId,
-                    Title = p.Title,
-                    Note = p.Note,
-                    Tags = p.RelationTags.Select(t => new Tag
-                    {
-                        Id = t.Tag.Id,
-                        Title = t.Tag.Title,
-                        Level = t.Tag.Level                        
-                    })
-                }).FirstOrDefault(p => p.Id == id);       
+            var entityFromRepo = _crudService.Get(id, "ProjectTags.Tag", true);
 
             if (entityFromRepo == null)
                 return NotFound();
 
             var response = Mapper.Map<ProjectDto>(entityFromRepo);
-            */
+
+            return Ok(response);         
+        }
+
+        [HttpPost()]        
+        public override IActionResult Create([FromBody] ProjectForCreationDto entityToCreate)
+        {
+            // 1. Map to project
+            var projectEntity = Mapper.Map<ProjectForCreationDto, Project>(entityToCreate);
+
+            // 2. Save new project
+            _crudService.Create(projectEntity);
+            if (!_crudService.Save())
+                throw new Exception("Creating entity failed on save.");
+
+            // 4. map ProjectTags
+
+          
+
+            //add newly created tags
+           
+
+            //add existing tags
+           
+
+            //removed
+
+
+
+
+            //remove tags globaly, which are not used anywhere to prevent from trashing tags table
+            
+           
+
+            // 5. Save project
+            if (!_crudService.Save())
+                throw new Exception($"Updating entity {projectEntity.Id} failed on save.");
+
             return Ok();
         }
 
         [HttpPut("{id}")]        
-        public override IActionResult Update(Guid id, [FromBody] ProjectForCreation entityToUpdate)
+        public override IActionResult Update(Guid id, [FromBody] ProjectForCreationDto entityToUpdate)
         {
             /*
             //var entityFromRepo = _crudService.Get(id, true);            
@@ -94,9 +117,9 @@ namespace Resmap.API.Controllers
         [HttpGet("tags")]
         public IActionResult GetTags()
         {
-            var id = Guid.Parse("2C0D1788-FF24-47A7-957A-CE870F0B7CCA");
+            var id = Guid.Parse("4F6D6D32-19D0-49AC-02A6-08D5E4ADDFA7");
 
-           return Ok();            
+            return Ok();            
         }
     }
 }

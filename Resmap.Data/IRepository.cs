@@ -32,11 +32,32 @@ namespace Resmap.Data
         TEntity Get(Guid id, bool eager = false);
 
         /// <summary>
+        /// Gets a single entity by id with eager false or true  
+        /// and included many-to-many reations. 
+        /// e.g. specifying in a string "ProjectTags.Tag"
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="includeQuery"></param>
+        /// <param name="eager"></param>
+        /// <returns></returns>
+        TEntity Get(Guid id, string includeQuery, bool eager = false);
+
+        /// <summary>
         /// Gets all entities with eager false or true
         /// </summary>
         /// <param name="eager"></param>
         /// <returns></returns>
         IEnumerable<TEntity> Get(bool eager = false);
+
+        /// <summary>
+        /// Gets all entities with eager false or true
+        /// and included many-to-many reations. 
+        /// e.g. specifying in a string "ProjectTags.Tag"
+        /// </summary>
+        /// <param name="eager"></param>
+        /// <param name="includeQuery"></param>
+        /// <returns></returns>
+        IEnumerable<TEntity> Get(string includeQuery, bool eager = false);
 
         /// <summary>
         /// Reads query of all entities with multiple include statements 

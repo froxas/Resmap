@@ -13,9 +13,6 @@ namespace Resmap.Data.Services
         public ProjectService(ApplicationDbContext context)
            : base(context)
         {
-        }
-
-        public override IEnumerable<Project> Get(bool eager = false)
-            => Query(true).Include("ProjectTags.Tag").ToList();        
+        }              
     }
 }

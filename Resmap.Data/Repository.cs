@@ -21,10 +21,16 @@ namespace Resmap.Data
         public void Create(TEntity entity) => Context.Add(entity);
 
         public virtual TEntity Get(Guid id, bool eager = false)
-            => Query(eager).SingleOrDefault(i => i.Id == id);        
+            => Query(eager).SingleOrDefault(i => i.Id == id);
+
+        public virtual TEntity Get(Guid id, string includeQuery, bool eager = false)
+            => Query(eager).Include(includeQuery).SingleOrDefault(i => i.Id == id);
 
         public virtual IEnumerable<TEntity> Get(bool eager = false)
             => Query(eager).ToList();
+
+        public IEnumerable<TEntity> Get(string includeQuery, bool eager = false)
+            => Query(eager).Include(includeQuery).ToList();
 
         public IQueryable<TEntity> Get(
             params Expression<Func<TEntity, object>>[] includeExpressions)

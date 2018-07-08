@@ -63,9 +63,9 @@ namespace Resmap.Data
         {
             #region entities configuration
             
+            // ProjectTag specific many-to-many configuration
             modelBuilder.Entity<ProjectTag>()
-                .HasKey(t => new { t.ProjectId, t.TagId });
-            
+                .HasKey(t => new { t.ProjectId, t.TagId });            
             modelBuilder.Entity<ProjectTag>()
                 .HasOne(pt => pt.Tag)
                 .WithMany("ProjectTags");

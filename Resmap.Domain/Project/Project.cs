@@ -6,15 +6,19 @@ namespace Resmap.Domain
 {
     public class Project : BaseEntity
     {
+        public Project()
+            => Tags = new JoinCollectionFacade<Tag, Project, ProjectTag>(this, ProjectTags);
+         
         public string ProjectId { get; set; }
         public string Title { get; set; }
         public string Manager { get; set; }
 
+        public Address Address { get; set; }
         public Note Note { get; set; }
-               
-        public ICollection<ProjectTag> ProjectTags { get; set; }
+
+        private ICollection<ProjectTag> ProjectTags { get; } = new List<ProjectTag>();
 
         [NotMapped]
-        public IEnumerable<Tag> Tags => ProjectTags.Select(p => p.Tag);
+        public ICollection<Tag> Tags { get; }
     }
 }

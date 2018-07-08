@@ -56,8 +56,7 @@ namespace Resmap.API.Controllers
             return NoContent();
         }
         
-        [HttpPost()]
-        [ValidateModel]
+        [HttpPost()]       
         public virtual IActionResult Create([FromBody] TEntityForCreacteDto entityToCreate)
         {            
             var eventEntity = Mapper.Map<TEntityForCreacteDto, TEntity>(entityToCreate);
