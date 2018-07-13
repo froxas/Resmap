@@ -10,6 +10,6 @@ namespace Resmap.Domain
     public interface ITaggable
     {
         [NotMapped]
-        IEnumerable<Tag> Tags { get; set; }
+        ICollection<Tag> Tags { get; }
     }
 }
