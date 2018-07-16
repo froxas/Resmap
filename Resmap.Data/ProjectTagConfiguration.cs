@@ -13,11 +13,14 @@ namespace Resmap.Data
             // like that .Include("ProjectTags.Tag")
             // .Include(t => t.Tag) will not work!  
 
-            modelBuilder.HasKey(t => new { t.ProjectId, t.TagId });
+            //modelBuilder.HasKey(t => new { t.ProjectId, t.TagId });
 
-            modelBuilder.HasOne(pt => pt.Project)
-                .WithMany("ProjectTags")
+            modelBuilder
+                .HasOne(pt => pt.Project)
+                .WithMany(p => p.ProjectTags)
                 .HasForeignKey(pt => pt.ProjectId);
+
+
         }
     }
 }

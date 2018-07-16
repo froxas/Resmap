@@ -13,8 +13,11 @@ namespace Resmap.API.Models
 
         public AddressDto Address { get; set; }
         public NoteDto Note { get; set; }
-        
+
         public IEnumerable<TagDto> Tags { get; set; }
-        
     }
+
+
+     
+
 }

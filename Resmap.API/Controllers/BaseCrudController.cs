@@ -9,10 +9,11 @@ using System.Collections.Generic;
 
 namespace Resmap.API.Controllers
 {
-    public class BaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto> : Controller
+    public class BaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto> : Controller
         where TEntity : BaseEntity
         where TEntityDto : class
         where TEntityForCreacteDto : class
+        where TEntityForUpdateDto : class
     {
         public readonly ICrudService<TEntity> _crudService;
 
@@ -66,10 +67,10 @@ namespace Resmap.API.Controllers
                 throw new Exception("Creating entity failed on save.");            
 
             return NoContent();
-        }
+        }        
       
         [HttpPut("{id}")]        
-        public virtual IActionResult Update(Guid id, [FromBody] TEntityForCreacteDto entityToUpdate)
+        public virtual IActionResult Update(Guid id, [FromBody] TEntityForUpdateDto entityToUpdate)
         {            
 
             var entityFromRepo = _crudService.Get(id, true);

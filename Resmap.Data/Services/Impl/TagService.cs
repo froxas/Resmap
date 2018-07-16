@@ -4,31 +4,29 @@ using Resmap.Domain;
 
 namespace Resmap.Data.Services
 { 
-    public class TagService : Repository<Tag>, ITagService
+    public class TagService<T> : Repository<Tag>, ITagService<T> where T : ITaggable  
     {
         public TagService(ApplicationDbContext context)
             : base(context)
         {
         }
 
-        public IEnumerable<Tag> Manage(IEnumerable<Tag> tagsFromDto, IEnumerable<Tag> tagsFromEntity)
+        public void MapTags(T OldEntity, T UpdatedEntity)
         {
-            if (tagsFromDto.SequenceEqual(tagsFromEntity))
-            {
-                return tagsFromDto;
-            }
+            var tagsToRemove = OldEntity.Tags.Except(UpdatedEntity.Tags);
+            //RemoveTags(tagsToRemove);
 
-            if (tagsFromDto.Any(e => e.Id == null))
-            {
-                foreach (var tag in tagsFromDto.Where(t => t.Id == null))
-                {
-                    Context.Set<Tag>().Add(tag);
-                    Context.SaveChanges();
-                }                
-            }
+            OldEntity.Tags.Clear();
 
-            return null;            
+            foreach (var tag in UpdatedEntity.Tags)
+                OldEntity.Tags.Add(tag);
         }
+
+        private void RemoveTags(IEnumerable<Tag> tagsToRemove)
+        {
+            
+        }
+
     }
 }
 

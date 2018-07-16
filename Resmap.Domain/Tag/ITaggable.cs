@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Resmap.Domain
 {
@@ -8,8 +7,7 @@ namespace Resmap.Domain
     /// all entities with tags needs to implement it
     /// </summary>
     public interface ITaggable
-    {
-        [NotMapped]
+    {        
         ICollection<Tag> Tags { get; }
     }
 }

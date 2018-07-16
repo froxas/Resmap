@@ -1,6 +1,7 @@
 ﻿using Resmap.API.Models;
 using Resmap.Domain;
 using System;
+using System.Linq;
 
 namespace Resmap.API
 {
@@ -14,17 +15,31 @@ namespace Resmap.API
                 cfg.CreateMap<Employee, EmployeeDto>()
                     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
                 cfg.CreateMap<Relation, RelationDto>();
+
                 cfg.CreateMap<RelationForCreationDto, Relation>();
                 cfg.CreateMap<EmployeeForCreationDto, Employee>();
+                //cfg.CreateMap<ProjectForCreationDto, ProjectForUpdateDto>();
+
+                // Mapping projects
+                cfg.CreateMap<ProjectTagDto, ProjectTag>();
+                cfg.CreateMap<Project, ProjectDto>()
+                    .ForMember(dto => dto.Tags, opt => opt.MapFrom(
+                        src => src.ProjectTags.Select(t => t.Tag).ToList()));
+
+                cfg.CreateMap<ProjectForCreationDto, Project>();
+                cfg.CreateMap<ProjectForUpdateDto, Project>();
+                    
+                    
+
+
+
+
+
                 cfg.CreateMap<AddressDto, Address>();
                 cfg.CreateMap<NoteDto, Note>();
                 cfg.CreateMap<ContactDto, Contact>();
-                cfg.CreateMap<Project, ProjectDto>();
-                cfg.CreateMap<ProjectForCreationDto, Project>()
-                    .ForMember(x => x.Tags, opt => opt.Ignore());                    
-
-                cfg.CreateMap<Tag, TagDto>();
-                cfg.CreateMap<ProjectTag, ProjectTagDto>();                
+                
+                cfg.CreateMap<Tag, TagDto>();                   
                 
 
                 // Mapping events

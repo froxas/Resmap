@@ -221,7 +221,7 @@ namespace Resmap.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("ProjectId", "TagId");
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("TagId");
 

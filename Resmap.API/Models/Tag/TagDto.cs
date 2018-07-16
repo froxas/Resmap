@@ -9,4 +9,6 @@ namespace Resmap.API.Models
         public string Title { get; set; }        
         public TagLevel Level { get; set; }
     }
+
+
 }

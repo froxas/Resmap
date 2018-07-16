@@ -3,13 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Resmap.Domain
 {
-    public class Project : BaseEntity, ITaggable
-    {
-        public Project()
-            => Tags = new JoinCollectionFacade<Tag, ProjectTag>(
-                ProjectTags,
-                pt => pt.Tag,
-                t => new ProjectTag { Project = this, Tag = t });        
+    public class Project : BaseEntity
+    {           
          
         public string ProjectId { get; set; }
         public string Title { get; set; }
@@ -18,9 +13,8 @@ namespace Resmap.Domain
         public Address Address { get; set; }
         public Note Note { get; set; }
 
-        private ICollection<ProjectTag> ProjectTags { get; } = new List<ProjectTag>();
+        public ICollection<ProjectTag> ProjectTags { get; set; }
 
-        [NotMapped]
-        public ICollection<Tag> Tags { get; }
+
     }
 }

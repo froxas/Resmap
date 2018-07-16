@@ -2,7 +2,7 @@
 
 namespace Resmap.Data.Migrations
 {
-    public partial class projectTag : Migration
+    public partial class editedProjectTags : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

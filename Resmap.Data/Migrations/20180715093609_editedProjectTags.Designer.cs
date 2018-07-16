@@ -10,14 +10,14 @@ using Resmap.Data;
 namespace Resmap.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180702202908_editdbcontext1")]
-    partial class editdbcontext1
+    [Migration("20180715093609_editedProjectTags")]
+    partial class editedProjectTags
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -185,6 +185,8 @@ namespace Resmap.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("AddressId");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Manager");
@@ -198,6 +200,8 @@ namespace Resmap.Data.Migrations
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("NoteId");
 
@@ -219,7 +223,7 @@ namespace Resmap.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("ProjectId", "TagId");
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("TagId");
 
@@ -318,6 +322,10 @@ namespace Resmap.Data.Migrations
 
             modelBuilder.Entity("Resmap.Domain.Project", b =>
                 {
+                    b.HasOne("Resmap.Domain.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
                     b.HasOne("Resmap.Domain.Note", "Note")
                         .WithMany()
                         .HasForeignKey("NoteId");
@@ -331,7 +339,7 @@ namespace Resmap.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Resmap.Domain.Tag", "Tag")
-                        .WithMany("ProjectTags")
+                        .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

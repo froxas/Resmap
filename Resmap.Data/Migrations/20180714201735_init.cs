@@ -151,11 +151,18 @@ namespace Resmap.Data.Migrations
                     ProjectId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Manager = table.Column<string>(nullable: true),
+                    AddressId = table.Column<Guid>(nullable: true),
                     NoteId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Projects_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Projects_Note_NoteId",
                         column: x => x.NoteId,
@@ -238,7 +245,6 @@ namespace Resmap.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectTag", x => x.Id);
-                    table.UniqueConstraint("AK_ProjectTag_ProjectId_TagId", x => new { x.ProjectId, x.TagId });
                     table.ForeignKey(
                         name: "FK_ProjectTag_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -274,9 +280,19 @@ namespace Resmap.Data.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projects_AddressId",
+                table: "Projects",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_NoteId",
                 table: "Projects",
                 column: "NoteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectTag_ProjectId",
+                table: "ProjectTag",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectTag_TagId",
@@ -326,10 +342,10 @@ namespace Resmap.Data.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Contact");
 
             migrationBuilder.DropTable(
-                name: "Contact");
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Note");
