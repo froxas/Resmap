@@ -1,32 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Resmap.Domain;
 
 namespace Resmap.Data.Services
 { 
-    public class TagService<T> : Repository<Tag>, ITagService<T> where T : ITaggable  
+    public class TagService<T, TJoin> : Repository<Tag>, ITagService<T, TJoin>
+        where T : ITaggable
+        where TJoin : JoinEntity<T>, new()
     {
         public TagService(ApplicationDbContext context)
             : base(context)
         {
         }
 
-        public void MapTags(T OldEntity, T UpdatedEntity)
+        public ICollection<TJoin> GetMappedTags(
+            Guid projectId,
+            IEnumerable<Tag> tags,
+            ICollection<TJoin> projectTags)
         {
-            var tagsToRemove = OldEntity.Tags.Except(UpdatedEntity.Tags);
-            //RemoveTags(tagsToRemove);
+            if (projectTags.Any())
+            {
+                var tempTags = projectTags.Select(t => t.Tag).ToList();
+                var tagsForRemove = tempTags.Except(tags).ToList();
+                projectTags.Clear();
+            }
 
-            OldEntity.Tags.Clear();
+            foreach (var tag in tags)
+            {
+                if (tag.Id != Guid.Empty)
+                {
+                    projectTags.Add(new TJoin
+                    {                        
+                        TagId = tag.Id,
+                        ResourceId = projectId
+                    });
+                }
+                else
+                {
+                    var newTag = new Tag { Title = tag.Title, Level = tag.Level };
+                    Create(newTag);
+                    
+                    projectTags.Add(new TJoin
+                    {
+                        TagId = newTag.Id,
+                        ResourceId = projectId
+                    });
+                }
+            }            
 
-            foreach (var tag in UpdatedEntity.Tags)
-                OldEntity.Tags.Add(tag);
+            return projectTags;
         }
-
-        private void RemoveTags(IEnumerable<Tag> tagsToRemove)
-        {
-            
-        }
-
+        
     }
 }
 

@@ -7,20 +7,24 @@ using System.Collections.Generic;
 
 namespace Resmap.API.Controllers
 {
-    public class BaseCrudTagController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto> 
+    public class BaseCrudTagController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto, TJoin> 
         : BaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto>
-        where TEntity : BaseEntity
+        where TEntity : BaseEntity, ITaggable
         where TEntityDto : class
         where TEntityForCreacteDto : class
-        where TEntityForUpdateDto : class
+        where TEntityForUpdateDto : class    
+        where TJoin : JoinEntity<TEntity>, new()
     {
         private readonly string IncludeExpression;
+        public readonly ITagService<TEntity, TJoin> _tagService;
 
         public BaseCrudTagController(
             string includeExpression,
+            ITagService<TEntity, TJoin> tagService,
             ICrudService<TEntity> crudService) : base(crudService)
         {
             IncludeExpression = includeExpression;
+            _tagService = tagService;
         }
 
         [HttpGet()]

@@ -11,8 +11,8 @@ namespace Resmap.API
             // Scoped            
             services.AddScoped<ITenantProvider, TenantProvider>();
             services.AddScoped<IEntityTypeProvider, EntityTypeProvider>();
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped(typeof(ITagService<>), typeof(TagService<>));
+            services.AddScoped<IProjectService, ProjectService>();            
+            services.AddScoped(typeof(ITagService<,>), typeof(TagService<,>));
             services.AddScoped(typeof(IResourceService<>), typeof(ResourceService<>));
             services.AddScoped(typeof(IEventService<>), typeof(EventService<>));            
             services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));

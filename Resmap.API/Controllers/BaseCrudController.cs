@@ -60,8 +60,8 @@ namespace Resmap.API.Controllers
         [HttpPost()]       
         public virtual IActionResult Create([FromBody] TEntityForCreacteDto entityToCreate)
         {            
-            var eventEntity = Mapper.Map<TEntityForCreacteDto, TEntity>(entityToCreate);
-            _crudService.Create(eventEntity);
+            var entityFromRepo = Mapper.Map<TEntityForCreacteDto, TEntity>(entityToCreate);
+            _crudService.Create(entityFromRepo);
 
             if (!_crudService.Save())
                 throw new Exception("Creating entity failed on save.");            

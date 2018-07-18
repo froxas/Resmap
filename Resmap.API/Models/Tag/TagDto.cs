@@ -10,5 +10,4 @@ namespace Resmap.API.Models
         public TagLevel Level { get; set; }
     }
 
-
 }

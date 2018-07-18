@@ -1,6 +1,4 @@
-﻿using Resmap.Domain;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Resmap.API.Models
@@ -13,10 +11,10 @@ namespace Resmap.API.Models
         public string Title { get; set; }
         public string Manager { get; set; }
 
-        public AddressDto Address { get; set; }
+        public AddressForCreationDto Address { get; set; }
         public NoteDto Note { get; set; }
 
-        public ICollection<ProjectTagDto> ProjectTags { get; set; }
+        public IEnumerable<TagDto> Tags { get; set; } = new List<TagDto>();
     }
 }
 

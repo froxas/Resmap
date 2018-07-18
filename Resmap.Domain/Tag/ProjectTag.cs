@@ -2,12 +2,8 @@
 
 namespace Resmap.Domain
 {
-    public class ProjectTag : BaseEntity
-    {
-        public Guid ProjectId { get; set; }
-        public Project Project { get; set; }
+    public class ProjectTag : JoinEntity<Project>
+    {    
         
-        public Guid TagId { get; set; }
-        public Tag Tag { get; set; }        
     }
 }

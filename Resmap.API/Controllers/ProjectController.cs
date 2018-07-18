@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Resmap.API.Models;
 using Resmap.Data.Services;
 using Resmap.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Resmap.API.Controllers
 {
@@ -15,19 +13,30 @@ namespace Resmap.API.Controllers
         Project, 
         ProjectDto, 
         ProjectForCreationDto, 
-        ProjectForUpdateDto>
+        ProjectForUpdateDto,
+        ProjectTag>
     {        
         public ProjectController(
-            ICrudService<Project> crudService) : base("ProjectTags.Tag", crudService)
+            ITagService<Project, ProjectTag> tagService,
+            ICrudService<Project> crudService) : base("ProjectTags.Tag", tagService, crudService)
         {     
         }        
 
         [HttpPost()]
         public override IActionResult Create([FromBody] ProjectForCreationDto entityToCreate)
         {
-            var eventEntity = Mapper.Map<ProjectForCreationDto, Project>(entityToCreate);           
+            var entityFromRepo = Mapper.Map<ProjectForCreationDto, Project>(entityToCreate);
+            _crudService.Create(entityFromRepo);
 
-            _crudService.Create(eventEntity);
+            var tagsFromDto = Mapper.Map<IEnumerable<Tag>>(entityToCreate.Tags);            
+
+            entityFromRepo.ProjectTags = 
+                _tagService.GetMappedTags(
+                    entityFromRepo.Id,
+                    tagsFromDto,
+                    entityFromRepo.ProjectTags);           
+
+            _crudService.Create(entityFromRepo);
 
             if (!_crudService.Save())
                 throw new Exception("Creating entity failed on save.");
@@ -43,9 +52,15 @@ namespace Resmap.API.Controllers
             if (entityFromRepo == null)
                 return NotFound();
 
-           // _tagService.MapTags(entityFromRepo, entityToUpdate);
-
             Mapper.Map(entityToUpdate, entityFromRepo);
+
+            var tagsFromDto = Mapper.Map<IEnumerable<Tag>>(entityToUpdate.Tags);
+
+            entityFromRepo.ProjectTags =
+                _tagService.GetMappedTags(
+                    entityFromRepo.Id,
+                    tagsFromDto,
+                    entityFromRepo.ProjectTags);
 
             if (!_crudService.Save())
                 throw new Exception($"Updating entity {id} failed on save.");

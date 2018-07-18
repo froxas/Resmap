@@ -1,15 +1,23 @@
 ﻿using Resmap.Domain;
+using System;
+using System.Collections.Generic;
 
 namespace Resmap.Data.Services
 {
-    public interface ITagService<T> : IRepository<Tag> where T : ITaggable
+    public interface ITagService<T, TJoin> : IRepository<Tag>        
+        where T : ITaggable
+        where TJoin : JoinEntity<T>, new()       
     {
         /// <summary>
-        /// Maps Tags property from Dto to Entity class
-        /// classes must implement Itaggable
+        /// Get mapped tags collection
         /// </summary>
-        /// <param name="OldEntity">Entity class</param>
-        /// <param name="UpdatedEntity">Dto class</param>
-        void MapTags(T OldEntity, T UpdatedEntity);
+        /// <param name="ProjectId">project id</param>
+        /// <param name="tags">collection of tags from Dto</param>
+        /// <param name="projectTags">collection of tags to be mapped</param>        
+        /// <returns>collection of mapped tags to return</returns>
+        ICollection<TJoin> GetMappedTags(
+            Guid projectId,
+            IEnumerable<Tag> tags,
+            ICollection<TJoin> projectTags);
     }
 }
