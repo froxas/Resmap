@@ -36,8 +36,11 @@ namespace Resmap.API
                 cfg.CreateMap<AddressForCreationDto, Address>();
                 cfg.CreateMap<NoteDto, Note>();
                 cfg.CreateMap<ContactDto, Contact>();                
-                cfg.CreateMap<TagDto, Tag>();                   
-                
+                cfg.CreateMap<TagDto, ITag>()
+                    .ForMember(dest => dest.TenantId, opt => opt.Ignore())
+                    .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
+
+
                 // Mapping events
                 cfg.CreateMap<Event, EventDto>()
                     .ForMember(dest => dest.Start, opt => opt.ResolveUsing(src => {

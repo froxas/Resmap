@@ -1,11 +1,13 @@
-﻿namespace Resmap.Domain
+﻿using System.Collections.Generic;
+
+namespace Resmap.Domain
 {
-    public class Tag : BaseEntity
+    public class Tag : BaseEntity, ITag
     {
         public string Title { get; set; }
         public TagType TagType { get; set; }
         public TagLevel Level { get; set; }
-
+        
         public override bool Equals(object obj)
         {
             if (!(obj is Tag item))

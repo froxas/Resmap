@@ -9,6 +9,5 @@ namespace Resmap.Domain
 
         public Guid TagId { get; set; }
         public Tag Tag { get; set; }
-
     }
 }
