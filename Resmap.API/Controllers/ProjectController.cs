@@ -13,11 +13,11 @@ namespace Resmap.API.Controllers
         Project, 
         ProjectDto, 
         ProjectForCreationDto, 
-        ProjectForUpdateDto,
-        ProjectTag>
+        ProjectForUpdateDto
+        >
     {        
         public ProjectController(
-            ITagService<Project, ProjectTag> tagService,
+            ITagService tagService,
             ICrudService<Project> crudService) : base("ProjectTags.Tag", tagService, crudService)
         {     
         }        

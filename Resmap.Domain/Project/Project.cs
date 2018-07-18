@@ -2,7 +2,7 @@
 
 namespace Resmap.Domain
 {
-    public class Project : BaseEntity, ITaggable
+    public class Project : BaseEntity
     {           
          
         public string ProjectId { get; set; }

@@ -16,9 +16,9 @@ namespace Resmap.Data
             //modelBuilder.HasKey(t => new { t.ProjectId, t.TagId });
 
             modelBuilder
-                .HasOne(pt => pt.Resource)
+                .HasOne(pt => pt.Project)
                 .WithMany(p => p.ProjectTags)
-                .HasForeignKey(pt => pt.ResourceId);
+                .HasForeignKey(pt => pt.ProjectId);
 
 
         }

@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace Resmap.Data.Services
 {
-    public interface ITagService<T, TJoin> : IRepository<Tag>        
-        where T : ITaggable
-        where TJoin : JoinEntity<T>, new()       
+    public interface ITagService : IRepository<Tag>                
+        
     {
         /// <summary>
         /// Get mapped tags collection
@@ -15,9 +14,9 @@ namespace Resmap.Data.Services
         /// <param name="tags">collection of tags from Dto</param>
         /// <param name="projectTags">collection of tags to be mapped</param>        
         /// <returns>collection of mapped tags to return</returns>
-        ICollection<TJoin> GetMappedTags(
+        ICollection<ProjectTag> GetMappedTags(
             Guid projectId,
             IEnumerable<Tag> tags,
-            ICollection<TJoin> projectTags);
+            ICollection<ProjectTag> projectTags);
     }
 }
