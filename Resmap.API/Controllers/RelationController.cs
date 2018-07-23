@@ -17,5 +17,7 @@ namespace Resmap.API.Controllers
             ICrudService<Relation> crudService) : base(crudService)
         {
         }
+
+
     }
 }

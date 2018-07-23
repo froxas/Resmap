@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Resmap.API.Models
 {
-    public class ProjectForCreationDto
-    {        
+    public class ProjectForCreationDto : ITaggableDto
+    {
         public string ProjectId { get; set; }
 
         [Required]
@@ -14,7 +14,8 @@ namespace Resmap.API.Models
         public AddressForCreationDto Address { get; set; }
         public NoteDto Note { get; set; }
 
-        public IEnumerable<TagDto> Tags { get; set; } = new List<TagDto>();
+        public ICollection<TagDto> Tags { get; set; } = new List<TagDto>();
+
     }
 }
 

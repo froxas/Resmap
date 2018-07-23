@@ -7,8 +7,8 @@ namespace Resmap.Domain
     /// all entities with tags needs to implement it
     /// in order to use TagService GetMappedTags()
     /// </summary>
-    public interface ITaggable<T>
+    public interface ITaggable<T> where T : IEntityTag        
     {
-        ICollection<T> ProjectTags { get; set; }
+        ICollection<T> Tags { get; set; }
     }
 }

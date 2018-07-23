@@ -4,9 +4,9 @@ using Resmap.Domain;
 
 namespace Resmap.Data
 {
-    public class ProjectTagConfiguration : IEntityTypeConfiguration<ProjectTag>
+    public class RelationTagConfiguration : IEntityTypeConfiguration<RelationTag>
     {
-        public void Configure(EntityTypeBuilder<ProjectTag> modelBuilder)
+        public void Configure(EntityTypeBuilder<RelationTag> modelBuilder)
         {
             // Note: 
             // to include Tags must be called 
@@ -15,10 +15,10 @@ namespace Resmap.Data
 
             //modelBuilder.HasKey(t => new { t.ProjectId, t.TagId });
 
-            modelBuilder                             
-                .HasOne(pt => pt.Project)
-                .WithMany(p => p.Tags)
-                .HasForeignKey(pt => pt.ProjectId);
+            modelBuilder                
+                .HasOne(pt => pt.Relation)
+                .WithMany(p => p.RelationTags)
+                .HasForeignKey(pt => pt.RelationId);
 
 
         }

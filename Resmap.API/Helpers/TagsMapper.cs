@@ -54,9 +54,9 @@ namespace Resmap.API.Helpers
             {
                 if (true)
                 {
-                    _tagService.Delete(tag);
+                   // _tagService.Delete(tag);
                 }
             }
-        }
+        }       
     }
 }

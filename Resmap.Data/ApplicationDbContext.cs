@@ -64,7 +64,8 @@ namespace Resmap.Data
             #region entities configuration
 
             modelBuilder.ApplyConfiguration(new ProjectTagConfiguration());
-            
+            modelBuilder.ApplyConfiguration(new RelationTagConfiguration());
+
             #endregion
 
             foreach (var type in _entityTypeProvider.GetEntityTypes())

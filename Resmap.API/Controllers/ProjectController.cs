@@ -15,7 +15,8 @@ namespace Resmap.API.Controllers
         Project, 
         ProjectDto, 
         ProjectForCreationDto, 
-        ProjectForUpdateDto
+        ProjectForUpdateDto,
+        ProjectTag
         >
     {        
         public ProjectController(
@@ -23,30 +24,25 @@ namespace Resmap.API.Controllers
             ICrudService<Project> crudService) : base("ProjectTags.Tag", tagService, crudService)
         {     
         }        
-
+        /*
         [HttpPost()]
         public override IActionResult Create([FromBody] ProjectForCreationDto entityToCreate)
         {
             var entityFromRepo = Mapper.Map<ProjectForCreationDto, Project>(entityToCreate);
-            _crudService.Create(entityFromRepo);
+            _crudService.Create(entityFromRepo);         
+            
+            var newTags = Mapper.Map<ICollection<Tag>>(entityToCreate.Tags);
 
-            //var tagManager = new TagsManager();
-            //tagManager.MapTags(_tagService, entityFromRepo, entityToCreate);
+            TagsManager.AddTags(entityFromRepo.ProjectTags, newTags, entityFromRepo.Id, _tagService);
 
-            var newTags = Mapper.Map<ICollection<ITag>>(entityToCreate.Tags);
-            var oldTags = entityFromRepo.ProjectTags.Select(t => t.Tag).ToArray();
-
-            var tagsMapper = new TagsMapper(newTags, oldTags, _tagService);
-            var mappedTags = tagsMapper.GetMappedTags();
-                                    
             _crudService.Create(entityFromRepo);
 
             if (!_crudService.Save())
                 throw new Exception("Creating entity failed on save.");
 
             return Ok();
-        }
-
+        }        
+        */
         [HttpPut("{id}")]
         public override IActionResult Update(Guid id, [FromBody] ProjectForUpdateDto entityToUpdate)
         {
@@ -66,4 +62,6 @@ namespace Resmap.API.Controllers
             return NoContent();
         }
     }
+
+    
 }

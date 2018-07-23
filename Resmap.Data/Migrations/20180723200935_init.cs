@@ -240,6 +240,7 @@ namespace Resmap.Data.Migrations
                     TenantId = table.Column<Guid>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ProjectId = table.Column<Guid>(nullable: false),
+                    EntityId = table.Column<Guid>(nullable: false),
                     TagId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -253,6 +254,34 @@ namespace Resmap.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ProjectTag_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RelationTag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TenantId = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    RelationId = table.Column<Guid>(nullable: false),
+                    EntityId = table.Column<Guid>(nullable: false),
+                    TagId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RelationTag", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RelationTag_Relations_RelationId",
+                        column: x => x.RelationId,
+                        principalTable: "Relations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RelationTag_Tags_TagId",
                         column: x => x.TagId,
                         principalTable: "Tags",
                         principalColumn: "Id",
@@ -313,6 +342,16 @@ namespace Resmap.Data.Migrations
                 name: "IX_Relations_NoteId",
                 table: "Relations",
                 column: "NoteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RelationTag_RelationId",
+                table: "RelationTag",
+                column: "RelationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RelationTag_TagId",
+                table: "RelationTag",
+                column: "TagId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -333,19 +372,22 @@ namespace Resmap.Data.Migrations
                 name: "ProjectTag");
 
             migrationBuilder.DropTable(
-                name: "Relations");
+                name: "RelationTag");
 
             migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
+                name: "Relations");
+
+            migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Contact");
+                name: "Address");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Contact");
 
             migrationBuilder.DropTable(
                 name: "Note");

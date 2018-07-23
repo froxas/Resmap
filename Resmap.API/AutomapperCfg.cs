@@ -25,9 +25,12 @@ namespace Resmap.API
                 cfg.CreateMap<ProjectTagDto, ProjectTag>();
                 cfg.CreateMap<Project, ProjectDto>()
                     .ForMember(dto => dto.Tags, opt => opt.MapFrom(
-                        src => src.ProjectTags.Select(t => t.Tag).ToList()));
+                        src => src.Tags.Select(t => t.Tag).ToList()));
 
-                cfg.CreateMap<ProjectForCreationDto, Project>();
+                cfg.CreateMap<ProjectForCreationDto, Project>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());                 
+
+
                 cfg.CreateMap<ProjectForUpdateDto, Project>();
 
 
@@ -35,10 +38,9 @@ namespace Resmap.API
                 cfg.CreateMap<AddressDto, Address>();
                 cfg.CreateMap<AddressForCreationDto, Address>();
                 cfg.CreateMap<NoteDto, Note>();
-                cfg.CreateMap<ContactDto, Contact>();                
-                cfg.CreateMap<TagDto, ITag>()
-                    .ForMember(dest => dest.TenantId, opt => opt.Ignore())
-                    .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
+                cfg.CreateMap<ContactDto, Contact>();
+                cfg.CreateMap<TagDto, Tag>();
+                    
 
 
                 // Mapping events
