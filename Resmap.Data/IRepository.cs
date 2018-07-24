@@ -34,7 +34,7 @@ namespace Resmap.Data
         /// <summary>
         /// Gets a single entity by id with eager false or true  
         /// and included many-to-many reations. 
-        /// e.g. specifying in a string "ProjectTags.Tag"
+        /// e.g. specifying in a string "Tags.Tag"
         /// </summary>
         /// <param name="id"></param>
         /// <param name="includeQuery"></param>
@@ -51,13 +51,25 @@ namespace Resmap.Data
 
         /// <summary>
         /// Gets all entities with eager false or true
-        /// and included many-to-many reations. 
-        /// e.g. specifying in a string "ProjectTags.Tag"
+        /// and included many-to-many relations. 
+        /// e.g. specifying in a string "Tags.Tag"
         /// </summary>
         /// <param name="eager"></param>
         /// <param name="includeQuery"></param>
         /// <returns></returns>
         IEnumerable<TEntity> Get(string includeQuery, bool eager = false);
+
+        /// <summary>
+        /// Gets all entities with eager false or true
+        /// and included many-to-many relations. 
+        /// e.g. specifying in a string "Tags.Tag"
+        /// apply where with expression
+        /// </summary>
+        /// <param name="includeQuery"></param>
+        /// <param name="expression"></param>
+        /// <param name="eager"></param>
+        /// <returns></returns>
+        IEnumerable<TEntity> Get(string includeQuery, Func<TEntity, bool> expression, bool eager = false);
 
         /// <summary>
         /// Reads query of all entities with multiple include statements 

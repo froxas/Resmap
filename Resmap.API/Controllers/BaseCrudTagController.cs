@@ -31,9 +31,9 @@ namespace Resmap.API.Controllers
 
         [HttpGet()]
         public override IActionResult Get()
-        {
+        {                     
             var entityFromRepo = _crudService.Get(IncludeExpression, true);
-         
+                     
             var response = Mapper.Map<IEnumerable<TEntityDto>>(entityFromRepo);
 
             return Ok(response);

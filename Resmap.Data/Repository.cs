@@ -32,6 +32,9 @@ namespace Resmap.Data
         public IEnumerable<TEntity> Get(string includeQuery, bool eager = false)
             => Query(eager).Include(includeQuery).ToList();
 
+        public IEnumerable<TEntity> Get(string includeQuery, Func<TEntity, bool> expression, bool eager = false)
+            => Query(eager).Include(includeQuery).Where(expression).ToList();
+
         public IQueryable<TEntity> Get(
             params Expression<Func<TEntity, object>>[] includeExpressions)
         {
