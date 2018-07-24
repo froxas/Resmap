@@ -13,8 +13,6 @@ namespace Resmap.Domain
         public Note Note { get; set; }
 
         public ICollection<ProjectTag> Tags { get; set; } = new List<ProjectTag>();
-
-        
     }
        
 }

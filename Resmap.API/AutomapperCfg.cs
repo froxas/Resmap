@@ -15,23 +15,27 @@ namespace Resmap.API
                 cfg.CreateMap<Employee, EmployeeDto>()
                     .ForMember(dest => dest.FullName, 
                         opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
-                cfg.CreateMap<EmployeeForCreationDto, Employee>();
+                cfg.CreateMap<EmployeeForUpdateDto, Employee>();
                 
                 // Mapping Relation
-                cfg.CreateMap<Relation, RelationDto>();
-                cfg.CreateMap<RelationForCreationDto, Relation>();
+                cfg.CreateMap<Relation, RelationDto>()
+                    .ForMember(dto => dto.Tags, opt => opt.MapFrom(
+                            src => src.Tags.Select(t => t.Tag).ToList()));
+                cfg.CreateMap<RelationForUpdateDto, Relation>();
+                cfg.CreateMap<RelationForCreationDto, Relation>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());
+                cfg.CreateMap<RelationForUpdateDto, Relation>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());
 
                 // Mapping Project
                 cfg.CreateMap<ProjectTagDto, ProjectTag>();
                 cfg.CreateMap<Project, ProjectDto>()
                     .ForMember(dto => dto.Tags, opt => opt.MapFrom(
                         src => src.Tags.Select(t => t.Tag).ToList()));
-
                 cfg.CreateMap<ProjectForCreationDto, Project>()
-                    .ForMember(dto => dto.Tags, opt => opt.Ignore());                 
-
-
-                cfg.CreateMap<ProjectForUpdateDto, Project>();
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());   
+                cfg.CreateMap<ProjectForUpdateDto, Project>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());
 
 
                 // Mapping shared entities

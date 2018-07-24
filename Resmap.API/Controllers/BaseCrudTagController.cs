@@ -14,8 +14,8 @@ namespace Resmap.API.Controllers
         where TEntity : BaseEntity, ITaggable<TJoin>
         where TEntityDto : class
         where TEntityForCreacteDto : class, ITaggableDto
-        where TEntityForUpdateDto : class    
-        where TJoin : IEntityTag
+        where TEntityForUpdateDto : class, ITaggableDto
+        where TJoin : IEntityTag, new()
     {
         private readonly string IncludeExpression;
         public readonly ITagService _tagService;
@@ -76,13 +76,31 @@ namespace Resmap.API.Controllers
             var tags = Mapper.Map<ICollection<Tag>>(entityToCreate.Tags);                      
 
             TagsManager.AddTags(entityFromRepo.Tags, tags, entityFromRepo.Id, _tagService);
-
-            _crudService.Create(entityFromRepo);
-
+            
             if (!_crudService.Save())
                 throw new Exception("Creating entity failed on save.");
 
             return Ok();
         }
+
+        [HttpPut("{id}")]
+        public override IActionResult Update(Guid id, [FromBody] TEntityForUpdateDto entityToUpdate)
+        {
+            var entityFromRepo = _crudService.Get(id, IncludeExpression, true);
+
+            if (entityFromRepo == null)
+                return NotFound();
+
+            Mapper.Map(entityToUpdate, entityFromRepo);
+
+            var tags = Mapper.Map<ICollection<Tag>>(entityToUpdate.Tags);
+            TagsManager.AddTags(entityFromRepo.Tags, tags, entityFromRepo.Id, _tagService);
+            
+            if (!_crudService.Save())
+                throw new Exception($"Updating entity {id} failed on save.");
+
+            return NoContent();
+        }
+
     }
 }

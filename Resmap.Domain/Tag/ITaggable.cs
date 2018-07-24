@@ -5,7 +5,7 @@ namespace Resmap.Domain
     /// <summary>
     /// ITaggable interface 
     /// all entities with tags needs to implement it
-    /// in order to use TagService GetMappedTags()
+    /// in order to use TagManager
     /// </summary>
     public interface ITaggable<T> where T : IEntityTag        
     {

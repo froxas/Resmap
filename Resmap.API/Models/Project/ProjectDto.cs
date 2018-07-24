@@ -1,5 +1,4 @@
-﻿using Resmap.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Resmap.API.Models
@@ -16,8 +15,4 @@ namespace Resmap.API.Models
 
         public IEnumerable<TagDto> Tags { get; set; }
     }
-
-
-     
-
 }

@@ -10,10 +10,12 @@ namespace Resmap.API.Controllers
     /// <typeparam name="TEntity">Entity</typeparam>
     /// <typeparam name="TEntityDto">View model for to show TEntity</typeparam>
     /// <typeparam name="TEntityForCreacteDto">View model for to create TEntity</typeparam>
-    public interface IBaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto>
+    /// <typeparam name="TEntityForCreacteDto">View model for to update TEntity</typeparam>
+    public interface IBaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto>
         where TEntity : BaseEntity
         where TEntityDto : class
         where TEntityForCreacteDto : class
+        where TEntityForUpdateDto : class
     {
         /// <summary>
         /// Get all entities of TEntity included all navigation properties
@@ -48,6 +50,6 @@ namespace Resmap.API.Controllers
         /// <param name="id"></param>
         /// <param name="entityToUpdate"></param>
         /// <returns>NoContent</returns>        
-        IActionResult Update(Guid id, [FromBody] TEntityForCreacteDto entityToUpdate);
+        IActionResult Update(Guid id, [FromBody] TEntityForUpdateDto entityToUpdate);
     }
 }
