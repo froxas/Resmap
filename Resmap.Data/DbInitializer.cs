@@ -14,11 +14,20 @@ namespace Resmap.Data
         public static void Initialize(ApplicationDbContext context)
         {
             context.Database.EnsureCreated();
-
-            string[] jobTitlesArray = new string[] { "Developer", "Architect", "Manager", "Designer" };
-            string[] departmentsArray = new string[] { "Design", "Development", "Offshore", "Sales" };
+            
             Employee[] employees = new Employee[65];            
-            DateTime startDate = DateTime.UtcNow.AddDays(-60);            
+            DateTime startDate = DateTime.UtcNow.AddDays(-60);
+
+            #region Departments
+            string[] departmentsArray = new string[] { "Design", "Development", "Offshore", "Sales" };
+
+            #endregion
+
+            #region JobTitle
+            string[] jobTitlesArray = new string[] { "Developer", "Architect", "Manager", "Designer" };
+
+            #endregion
+
 
             #region Employees            
             if (!context.Employees.Any())
@@ -32,9 +41,7 @@ namespace Resmap.Data
                         Id = Guid.NewGuid(),
                         EmployeeID = rnd.Next(1, 9999).ToString(),
                         FirstName = personGenerator.GenerateRandomFirstName(),
-                        LastName = personGenerator.GenerateRandomLastName(),
-                        JobTitle = jobTitlesArray[rnd.Next(4)],
-                        Department = departmentsArray[rnd.Next(4)],                                               
+                        LastName = personGenerator.GenerateRandomLastName(),                        
                         IsSubcontractor = false,
                         Address = new Address
                         {

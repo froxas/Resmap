@@ -28,8 +28,7 @@ namespace Resmap.Data
         {
             _teanantId = tenantProvider.GetTenantId();
             _entityTypeProvider = entityTypeProvider;
-        }
-             
+        }             
 
         #region DbSets
         public DbSet<Employee> Employees { get; set; }        

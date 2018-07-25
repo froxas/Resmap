@@ -13,9 +13,9 @@ namespace Resmap.API
             {
                 // Mapping Employee
                 cfg.CreateMap<Employee, EmployeeDto>()
-                    .ForMember(dest => dest.FullName, 
-                        opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
-                cfg.CreateMap<EmployeeForUpdateDto, Employee>();
+                    .ForMember(dest => dest.FullName,
+                        opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));                     
+                cfg.CreateMap<EmployeeForUpdateDto, Employee>();                
                 
                 // Mapping Relation
                 cfg.CreateMap<Relation, RelationDto>()
@@ -26,7 +26,7 @@ namespace Resmap.API
                     .ForMember(dto => dto.Tags, opt => opt.Ignore());
                 cfg.CreateMap<RelationForUpdateDto, Relation>()
                     .ForMember(dto => dto.Tags, opt => opt.Ignore());
-
+                
                 // Mapping Project
                 cfg.CreateMap<ProjectTagDto, ProjectTag>();
                 cfg.CreateMap<Project, ProjectDto>()
@@ -37,11 +37,12 @@ namespace Resmap.API
                 cfg.CreateMap<ProjectForUpdateDto, Project>()
                     .ForMember(dto => dto.Tags, opt => opt.Ignore());
 
-
                 // Mapping shared entities
                 cfg.CreateMap<AddressDto, Address>();
                 cfg.CreateMap<AddressForCreationDto, Address>();
                 cfg.CreateMap<NoteDto, Note>();
+                cfg.CreateMap<JobTitleDto, JobTitle>();
+                cfg.CreateMap<DepartmentDto, Department>();
                 cfg.CreateMap<ContactDto, Contact>();
                 cfg.CreateMap<TagDto, Tag>();
                     

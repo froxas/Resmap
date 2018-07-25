@@ -9,6 +9,8 @@ namespace Resmap.Domain
         public string Title { get; set; }
         public string Manager { get; set; }
 
+        public Relation Client { get; set; }
+
         public Address Address { get; set; }
         public Note Note { get; set; }
 

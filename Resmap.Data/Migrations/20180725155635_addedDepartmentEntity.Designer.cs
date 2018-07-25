@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resmap.Data;
 
 namespace Resmap.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180725155635_addedDepartmentEntity")]
+    partial class addedDepartmentEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,8 +221,6 @@ namespace Resmap.Data.Migrations
 
                     b.Property<Guid?>("AddressId");
 
-                    b.Property<Guid?>("ClientId");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Manager");
@@ -236,8 +236,6 @@ namespace Resmap.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("NoteId");
 
@@ -391,10 +389,6 @@ namespace Resmap.Data.Migrations
                     b.HasOne("Resmap.Domain.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
-
-                    b.HasOne("Resmap.Domain.Relation", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
 
                     b.HasOne("Resmap.Domain.Note", "Note")
                         .WithMany()

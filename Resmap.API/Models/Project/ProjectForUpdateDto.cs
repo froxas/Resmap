@@ -13,6 +13,8 @@ namespace Resmap.API.Models
         public string Title { get; set; }
         public string Manager { get; set; }
 
+        public RelationDto Client { get; set; }
+
         public AddressDto Address { get; set; }
         public NoteDto Note { get; set; }
 

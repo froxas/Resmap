@@ -13,8 +13,8 @@ namespace Resmap.API.Models
         public string LastName { get; set; }
 
         [Required]
-        public string JobTitle { get; set; }
-                
+        public JobTitleDto JobTitle { get; set; }
+
         public string Department { get; set; }
 
         [Required]
