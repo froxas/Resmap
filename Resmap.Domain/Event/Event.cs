@@ -7,7 +7,7 @@ namespace Resmap.Domain
     /// The base class starting point for events
     /// all event entities needs to inheritate it in order to use IEventManager
     /// </summary>
-    public class Event : BaseEntity, IEvent
+    public abstract class Event : BaseEntity, IEvent
     {
         [Required]
         public DateTime Start { get; set; }

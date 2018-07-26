@@ -14,7 +14,7 @@ namespace Resmap.Tests
         private DbContextOptions<ApplicationDbContext> _options;
 
         private readonly ITenantProvider _tenantProvider;
-        private readonly IEntityTypeProvider _entityTypeProvider;
+        //private readonly IEntityTypeProvider _entityTypeProvider;
 
         public RelationsModelTests()
         {

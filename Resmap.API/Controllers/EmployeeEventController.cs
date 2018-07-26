@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Resmap.API.Models;
 using Resmap.Data.Services;
 using Resmap.Domain;
-using System;
-using System.Collections.Generic;
 
 namespace Resmap.API.Controllers
 {
@@ -24,6 +21,5 @@ namespace Resmap.API.Controllers
             : base(eventService, resourceService)
         {
         }
-
     }
 }

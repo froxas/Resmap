@@ -1,6 +1,7 @@
 ﻿using Resmap.API.Models;
 using Resmap.Domain;
 using System;
+using System.Linq;
 
 namespace Resmap.API
 {
@@ -10,18 +11,47 @@ namespace Resmap.API
         {
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                // Mapping other entities
+                // Mapping Employee
                 cfg.CreateMap<Employee, EmployeeDto>()
-                    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
-                cfg.CreateMap<Relation, RelationDto>();
-                cfg.CreateMap<RelationForCreationDto, Relation>();
+                    .ForMember(dto => dto.Department, opt => opt.MapFrom(src => src.Department.Title))
+                    .ForMember(dto => dto.JobTitle, opt => opt.MapFrom(src => src.JobTitle.Title))
+                    .ForMember(dto => dto.Subcontractor, opt => opt.MapFrom(src => src.Subcontractor.Title))
+                    .ForMember(dest => dest.FullName,
+                        opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));                     
+                cfg.CreateMap<EmployeeForUpdateDto, Employee>();
                 cfg.CreateMap<EmployeeForCreationDto, Employee>();
+
+                // Mapping Relation
+                cfg.CreateMap<Relation, RelationDto>()
+                    .ForMember(dto => dto.Tags, opt => opt.MapFrom(
+                            src => src.Tags.Select(t => t.Tag).ToList()));
+                cfg.CreateMap<RelationForUpdateDto, Relation>();
+                cfg.CreateMap<RelationForCreationDto, Relation>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());
+                cfg.CreateMap<RelationForUpdateDto, Relation>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());
+                
+                // Mapping Project
+                cfg.CreateMap<ProjectTagDto, ProjectTag>();
+                cfg.CreateMap<Project, ProjectDto>()         
+                    .ForMember(dto => dto.Client, opt => opt.MapFrom(src => src.Client.Title))
+                    .ForMember(dto => dto.Tags, opt => opt.MapFrom(
+                        src => src.Tags.Select(t => t.Tag).ToList()));                    
+                cfg.CreateMap<ProjectForCreationDto, Project>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());   
+                cfg.CreateMap<ProjectForUpdateDto, Project>()
+                    .ForMember(dto => dto.Tags, opt => opt.Ignore());
+
+                // Mapping shared entities
                 cfg.CreateMap<AddressDto, Address>();
+                cfg.CreateMap<AddressForCreationDto, Address>();
                 cfg.CreateMap<NoteDto, Note>();
+                cfg.CreateMap<JobTitleDto, JobTitle>();
+                cfg.CreateMap<DepartmentDto, Department>();
                 cfg.CreateMap<ContactDto, Contact>();
-                cfg.CreateMap<Project, ProjectDto>();                    
-                cfg.CreateMap<Tag, TagDto>();
-                cfg.CreateMap<ProjectTag, ProjectTagDto>();                
+                cfg.CreateMap<TagDto, Tag>();
+                    
+
 
                 // Mapping events
                 cfg.CreateMap<Event, EventDto>()
@@ -32,15 +62,22 @@ namespace Resmap.API
                         var dt = (DateTime)src.End; return dt.ToShortDateString();
                     }));
 
-                cfg.CreateMap<EmployeeEvent, EmployeeEventDto>();
+                cfg.CreateMap<EmployeeEvent, EmployeeEventDto>()
+                    .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Project.Title));
                 cfg.CreateMap<EventForCreationDto, EmployeeEvent>();
                 cfg.CreateMap<EventForCreationDto, CarEvent>();
 
+                cfg.CreateMap<CarEvent, CarEventDto>()
+                    .ForMember(dest => dest.Text, opt =>
+                        opt.MapFrom(src => $"{src.Employee.FirstName} {src.Employee.LastName}"));
+
                 // mapping resources for events
                 cfg.CreateMap<Car, ResourceCarDto>()
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.NumberPlate} {src.Model}"));
+                    .ForMember(dest => dest.Name, opt => 
+                        opt.MapFrom(src => $"{src.NumberPlate} {src.Model}"));                
                 cfg.CreateMap<Employee, ResourceEmployeeDto>()
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+                    .ForMember(dest => dest.Name, 
+                        opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
             });
         }
     }

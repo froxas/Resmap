@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Resmap.Domain
 {
     /// <summary>
     /// ITaggable interface 
     /// all entities with tags needs to implement it
+    /// in order to use TagManager
     /// </summary>
-    public interface ITaggable
+    public interface ITaggable<T> where T : IEntityTag        
     {
-        [NotMapped]
-        IEnumerable<Tag> Tags { get; set; }
+        ICollection<T> Tags { get; set; }
     }
 }

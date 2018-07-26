@@ -1,11 +1,13 @@
 ﻿using Resmap.Domain;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Resmap.API.Models
 {
-    public class RelationForCreationDto: ITaggableDto
-    {        
+    public class RelationForUpdateDto : ITaggableDto
+    {
+        public Guid Id { get; set; }
         public string RelationId { get; set; }
 
         [Required]
@@ -17,7 +19,7 @@ namespace Resmap.API.Models
         public AddressDto Address { get; set; }
         public NoteDto Note { get; set; }
 
-        public ICollection<TagDto> Tags { get; set; } = new List<TagDto>();       
+        public ICollection<TagDto> Tags { get; set; } = new List<TagDto>();
     }
 
 

@@ -1,6 +1,6 @@
 ﻿namespace Resmap.Domain
 {
-    public class Country : LabelEntity
+    public class Country : BaseEntity
     {
     }
 }

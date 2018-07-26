@@ -1,7 +1,7 @@
 ﻿namespace Resmap.Domain
 { 
-    public class JobTitle : LabelEntity
-    {   
-        
+    public class JobTitle : BaseEntity
+    {
+        public string Title { get; set; }
     }
 }

@@ -1,20 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace Resmap.Domain
 {
-    public class Project : BaseEntity, ITaggable
-    {
+    public class Project : BaseEntity, ITaggable<ProjectTag>
+    {           
+         
         public string ProjectId { get; set; }
         public string Title { get; set; }
         public string Manager { get; set; }
 
-        public Note Note { get; set; }
-               
-        public ICollection<ProjectTag> ProjectTags { get; set; }
+        [ForeignKey("Relation")]
+        public Guid ClientId { get; set; }
+        public Relation Client { get; set; }       
 
-        [NotMapped]
-        public IEnumerable<Tag> Tags { get; set; }
+        public Address Address { get; set; }
+        public Note Note { get; set; }
+
+        public ICollection<ProjectTag> Tags { get; set; } = new List<ProjectTag>();
     }
+       
 }

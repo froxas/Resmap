@@ -28,14 +28,14 @@ namespace Resmap.Data
         {
             _teanantId = tenantProvider.GetTenantId();
             _entityTypeProvider = entityTypeProvider;
-        }
-             
+        }             
 
         #region DbSets
         public DbSet<Employee> Employees { get; set; }        
         public DbSet<Relation> Relations { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Event> Events { get; set; }
         public DbSet<CarEvent> CarEvents { get; set; }
         public DbSet<EmployeeEvent> EmployeeEvents { get; set; }
         public DbSet<Tag> Tags { get; set; }
@@ -62,10 +62,10 @@ namespace Resmap.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region entities configuration
+
+            modelBuilder.ApplyConfiguration(new ProjectTagConfiguration());
+            modelBuilder.ApplyConfiguration(new RelationTagConfiguration());           
             
-            modelBuilder.Entity<ProjectTag>()
-                .HasKey(t => new { t.ProjectId, t.TagId });
-                        
             #endregion
 
             foreach (var type in _entityTypeProvider.GetEntityTypes())
