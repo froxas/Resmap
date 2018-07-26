@@ -9,11 +9,12 @@ namespace Resmap.API.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
+                
+        public string JobTitle { get; set; }
+        public string Department { get; set; }
 
-        public JobTitleDto JobTitle { get; set; }
-
-        public DepartmentDto Department { get; set; }
         public bool IsSubcontractor { get; set; }
+        public string Subcontractor { get; set; }
 
         public ContactDto Contact { get; set; }
         public AddressDto Address { get; set; }

@@ -58,7 +58,20 @@ namespace Resmap.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LabelEntity",
+                name: "Country",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TenantId = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Country", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Department",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -68,7 +81,21 @@ namespace Resmap.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LabelEntity", x => x.Id);
+                    table.PrimaryKey("PK_Department", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JobTitle",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TenantId = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Title = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobTitle", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,76 +126,6 @@ namespace Resmap.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    TenantId = table.Column<Guid>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    EmployeeID = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    JobTitle = table.Column<string>(nullable: true),
-                    Department = table.Column<string>(nullable: true),
-                    IsSubcontractor = table.Column<bool>(nullable: false),
-                    AddressId = table.Column<Guid>(nullable: true),
-                    ContactId = table.Column<Guid>(nullable: true),
-                    NoteId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employees_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Employees_Contact_ContactId",
-                        column: x => x.ContactId,
-                        principalTable: "Contact",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Employees_Note_NoteId",
-                        column: x => x.NoteId,
-                        principalTable: "Note",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Projects",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    TenantId = table.Column<Guid>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    ProjectId = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    Manager = table.Column<string>(nullable: true),
-                    AddressId = table.Column<Guid>(nullable: true),
-                    NoteId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Projects_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Projects_Note_NoteId",
-                        column: x => x.NoteId,
-                        principalTable: "Note",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,55 +166,99 @@ namespace Resmap.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Event",
+                name: "Employees",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     TenantId = table.Column<Guid>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    Start = table.Column<DateTime>(nullable: false),
-                    End = table.Column<DateTime>(nullable: false),
-                    Resource = table.Column<Guid>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    ProjectId = table.Column<Guid>(nullable: true)
+                    EmployeeID = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    JobTitleId = table.Column<Guid>(nullable: true),
+                    DepartmentId = table.Column<Guid>(nullable: true),
+                    IsSubcontractor = table.Column<bool>(nullable: false),
+                    SubcontractorId = table.Column<Guid>(nullable: true),
+                    AddressId = table.Column<Guid>(nullable: true),
+                    ContactId = table.Column<Guid>(nullable: true),
+                    NoteId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Event", x => x.Id);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Event_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        name: "FK_Employees_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employees_Contact_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contact",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employees_Department_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Department",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employees_JobTitle_JobTitleId",
+                        column: x => x.JobTitleId,
+                        principalTable: "JobTitle",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employees_Note_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Note",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employees_Relations_SubcontractorId",
+                        column: x => x.SubcontractorId,
+                        principalTable: "Relations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectTag",
+                name: "Projects",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     TenantId = table.Column<Guid>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    ProjectId = table.Column<Guid>(nullable: false),
-                    EntityId = table.Column<Guid>(nullable: false),
-                    TagId = table.Column<Guid>(nullable: false)
+                    ProjectId = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Manager = table.Column<string>(nullable: true),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    AddressId = table.Column<Guid>(nullable: true),
+                    NoteId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectTag", x => x.Id);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectTag_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        name: "FK_Projects_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Projects_Relations_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Relations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectTag_Tags_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tags",
+                        name: "FK_Projects_Note_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Note",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,7 +269,6 @@ namespace Resmap.Data.Migrations
                     TenantId = table.Column<Guid>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     RelationId = table.Column<Guid>(nullable: false),
-                    EntityId = table.Column<Guid>(nullable: false),
                     TagId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -288,6 +288,64 @@ namespace Resmap.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TenantId = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Start = table.Column<DateTime>(nullable: false),
+                    End = table.Column<DateTime>(nullable: false),
+                    Resource = table.Column<Guid>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: true),
+                    ProjectId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Events_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectTag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TenantId = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ProjectId = table.Column<Guid>(nullable: false),
+                    TagId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectTag", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectTag_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectTag_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_AddressId",
                 table: "Employees",
@@ -299,19 +357,44 @@ namespace Resmap.Data.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Employees_DepartmentId",
+                table: "Employees",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_JobTitleId",
+                table: "Employees",
+                column: "JobTitleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_NoteId",
                 table: "Employees",
                 column: "NoteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Event_ProjectId",
-                table: "Event",
+                name: "IX_Employees_SubcontractorId",
+                table: "Employees",
+                column: "SubcontractorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_EmployeeId",
+                table: "Events",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_ProjectId",
+                table: "Events",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_AddressId",
                 table: "Projects",
                 column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_ClientId",
+                table: "Projects",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_NoteId",
@@ -360,13 +443,10 @@ namespace Resmap.Data.Migrations
                 name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Country");
 
             migrationBuilder.DropTable(
-                name: "Event");
-
-            migrationBuilder.DropTable(
-                name: "LabelEntity");
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "ProjectTag");
@@ -375,13 +455,22 @@ namespace Resmap.Data.Migrations
                 name: "RelationTag");
 
             migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Relations");
+                name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Department");
+
+            migrationBuilder.DropTable(
+                name: "JobTitle");
+
+            migrationBuilder.DropTable(
+                name: "Relations");
 
             migrationBuilder.DropTable(
                 name: "Address");

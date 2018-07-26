@@ -21,15 +21,20 @@ namespace Resmap.API.Helpers
                 entityTags.Clear();
                 RemoveUnusedTags();
             }
-            foreach (var tag in tags)
+
+            if (tags != null)
             {
-                if (tag.Id == Guid.Empty)
-                    _tagService.Create(tag);
-                entityTags.Add(new T
+                foreach (var tag in tags)
                 {
-                    TagId = tag.Id,
-                    EntityId = entityId
-                });
+
+                    if (tag.Id == Guid.Empty)
+                        _tagService.Create(tag);
+                    entityTags.Add(new T
+                    {
+                        TagId = tag.Id,
+                        EntityId = entityId
+                    });
+                }
             }
         }
 

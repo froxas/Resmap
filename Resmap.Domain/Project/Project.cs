@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Resmap.Domain
 {
@@ -9,7 +11,9 @@ namespace Resmap.Domain
         public string Title { get; set; }
         public string Manager { get; set; }
 
-        public Relation Client { get; set; }
+        [ForeignKey("Relation")]
+        public Guid ClientId { get; set; }
+        public Relation Client { get; set; }       
 
         public Address Address { get; set; }
         public Note Note { get; set; }

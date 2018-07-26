@@ -1,24 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace Resmap.API.Models
 {
     public class EmployeeForCreationDto
     {        
         public string EmployeeID { get; set; }
-
-        [Required]
         public string FirstName { get; set; }
-
-        [Required]
         public string LastName { get; set; }
-
-        [Required]
-        public JobTitleDto JobTitle { get; set; }
-
-        public string Department { get; set; }
-
-        [Required]
+        
+        public Guid? JobTitleId { get; set; }
+        public Guid? DepartmentId { get; set; }
+        
         public bool IsSubcontractor { get; set; }
+        public Guid? SubcontractorId { get; set; }
 
         public AddressDto Address { get; set; }
         public ContactDto Contact { get; set; }

@@ -7,20 +7,15 @@ namespace Resmap.API.Models
     {
         public Guid Id { get; set; }
         public string EmployeeID { get; set; }
-
-        [Required]
+                
         public string FirstName { get; set; }
-
-        [Required]
         public string LastName { get; set; }
 
-        [Required]
-        public JobTitleDto JobTitle { get; set; }
-                
-        public DepartmentDto Department { get; set; }
+        public Guid? JobTitleId { get; set; }
+        public Guid? DepartmentId { get; set; }
 
-        [Required]
         public bool IsSubcontractor { get; set; }
+        public Guid? SubcontractorId { get; set; }
 
         public AddressDto Address { get; set; }
         public ContactDto Contact { get; set; }

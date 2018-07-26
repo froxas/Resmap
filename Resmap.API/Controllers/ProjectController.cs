@@ -22,7 +22,7 @@ namespace Resmap.API.Controllers
         public ProjectController(
             ITagService tagService,
             ICrudService<Project> crudService) : base("Tags.Tag", tagService, crudService)
-        {     
-        }               
+        {  
+        }        
     }    
 }

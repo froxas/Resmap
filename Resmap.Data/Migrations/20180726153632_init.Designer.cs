@@ -10,8 +10,8 @@ using Resmap.Data;
 namespace Resmap.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180725153847_updatedJobTitle")]
-    partial class updatedJobTitle
+    [Migration("20180726153632_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,36 @@ namespace Resmap.Data.Migrations
                     b.ToTable("Contact");
                 });
 
+            modelBuilder.Entity("Resmap.Domain.Country", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Country");
+                });
+
+            modelBuilder.Entity("Resmap.Domain.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid>("TenantId");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Department");
+                });
+
             modelBuilder.Entity("Resmap.Domain.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -94,7 +124,7 @@ namespace Resmap.Data.Migrations
 
                     b.Property<Guid?>("ContactId");
 
-                    b.Property<string>("Department");
+                    b.Property<Guid?>("DepartmentId");
 
                     b.Property<string>("EmployeeID");
 
@@ -110,6 +140,8 @@ namespace Resmap.Data.Migrations
 
                     b.Property<Guid?>("NoteId");
 
+                    b.Property<Guid?>("SubcontractorId");
+
                     b.Property<Guid>("TenantId");
 
                     b.HasKey("Id");
@@ -118,9 +150,13 @@ namespace Resmap.Data.Migrations
 
                     b.HasIndex("ContactId");
 
+                    b.HasIndex("DepartmentId");
+
                     b.HasIndex("JobTitleId");
 
                     b.HasIndex("NoteId");
+
+                    b.HasIndex("SubcontractorId");
 
                     b.ToTable("Employees");
                 });
@@ -145,7 +181,7 @@ namespace Resmap.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Event");
+                    b.ToTable("Events");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Event");
                 });
@@ -164,22 +200,6 @@ namespace Resmap.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobTitle");
-                });
-
-            modelBuilder.Entity("Resmap.Domain.LabelEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<Guid>("TenantId");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LabelEntity");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Note", b =>
@@ -205,6 +225,8 @@ namespace Resmap.Data.Migrations
 
                     b.Property<Guid?>("AddressId");
 
+                    b.Property<Guid>("ClientId");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Manager");
@@ -220,6 +242,8 @@ namespace Resmap.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("NoteId");
 
@@ -326,6 +350,9 @@ namespace Resmap.Data.Migrations
                 {
                     b.HasBaseType("Resmap.Domain.Event");
 
+                    b.Property<Guid>("EmployeeId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("CarEvent");
 
@@ -336,7 +363,7 @@ namespace Resmap.Data.Migrations
                 {
                     b.HasBaseType("Resmap.Domain.Event");
 
-                    b.Property<Guid?>("ProjectId");
+                    b.Property<Guid>("ProjectId");
 
                     b.HasIndex("ProjectId");
 
@@ -355,6 +382,10 @@ namespace Resmap.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ContactId");
 
+                    b.HasOne("Resmap.Domain.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
                     b.HasOne("Resmap.Domain.JobTitle", "JobTitle")
                         .WithMany()
                         .HasForeignKey("JobTitleId");
@@ -362,6 +393,10 @@ namespace Resmap.Data.Migrations
                     b.HasOne("Resmap.Domain.Note", "Note")
                         .WithMany()
                         .HasForeignKey("NoteId");
+
+                    b.HasOne("Resmap.Domain.Relation", "Subcontractor")
+                        .WithMany()
+                        .HasForeignKey("SubcontractorId");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Project", b =>
@@ -369,6 +404,11 @@ namespace Resmap.Data.Migrations
                     b.HasOne("Resmap.Domain.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
+
+                    b.HasOne("Resmap.Domain.Relation", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Resmap.Domain.Note", "Note")
                         .WithMany()
@@ -416,11 +456,20 @@ namespace Resmap.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Resmap.Domain.CarEvent", b =>
+                {
+                    b.HasOne("Resmap.Domain.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Resmap.Domain.EmployeeEvent", b =>
                 {
                     b.HasOne("Resmap.Domain.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -18,7 +18,7 @@ namespace Resmap.API.Controllers
         where TEventForCreacteDto: EventForCreationDto
         where TResourceDto : ResourceDto
     {
-        private readonly IEventService<TEvent> _eventService;
+        public readonly IEventService<TEvent> _eventService;
         private readonly IRepository<TResource> _resourceService;
 
         public BaseEventController(
@@ -41,9 +41,9 @@ namespace Resmap.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetEvents()
+        public virtual IActionResult GetEvents()
         {
-            var eventsFromRepo = _eventService.Get();
+            var eventsFromRepo = _eventService.Get(true);
             var response = Mapper.Map<IEnumerable<TEventDto>>(eventsFromRepo);
             var responseObject = new { events = response };
 

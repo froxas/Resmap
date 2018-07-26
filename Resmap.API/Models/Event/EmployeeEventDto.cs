@@ -1,7 +1,8 @@
-﻿namespace Resmap.API.Models
+﻿using System;
+
+namespace Resmap.API.Models
 {
     public class EmployeeEventDto : EventDto
-    {
-        public ProjectDto Project { get; set; }
+    {        
     }
 }

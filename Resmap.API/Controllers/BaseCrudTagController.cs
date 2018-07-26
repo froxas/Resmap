@@ -52,7 +52,7 @@ namespace Resmap.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete()]
+        [HttpDelete("{id}")]
         public override IActionResult Delete(Guid id)
         {
             var entityFromRepo = _crudService.Get(id, IncludeExpression, true);
