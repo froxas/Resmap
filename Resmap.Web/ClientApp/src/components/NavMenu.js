@@ -40,7 +40,12 @@ export class NavMenu extends Component {
             </LinkContainer>     
             <LinkContainer to={'/scheduler'}>
               <NavItem>
-                <Glyphicon glyph='th-list' /> Scheduler
+                <Glyphicon glyph='th-list' /> Scheduler Employee
+              </NavItem>
+            </LinkContainer>     
+            <LinkContainer to={'/schedulerCar'}>
+              <NavItem>
+                <Glyphicon glyph='th-list' /> Scheduler Car
               </NavItem>
             </LinkContainer>     
             <LinkContainer to={'/relation'}>
