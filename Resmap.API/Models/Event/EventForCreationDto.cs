@@ -12,8 +12,6 @@ namespace Resmap.API.Models
         public DateTime End { get; set; }
 
         [Required]
-        public Guid Resource { get; set; }
-
-        public Guid? ProjectId { get; set; }
+        public Guid Resource { get; set; }      
     }
 }

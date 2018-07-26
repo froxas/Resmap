@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Resmap.API.Models
+﻿namespace Resmap.API.Models
 {
     public class EmployeeEventDto : EventDto
     {        

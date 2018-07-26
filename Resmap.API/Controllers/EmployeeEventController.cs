@@ -11,7 +11,7 @@ namespace Resmap.API.Controllers
               EmployeeEvent,
               Employee,
               EmployeeEventDto,
-              EventForCreationDto,
+              EmployeeEventForCreationDto,
               ResourceEmployeeDto
               >
     {

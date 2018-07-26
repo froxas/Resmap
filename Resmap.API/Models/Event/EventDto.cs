@@ -7,5 +7,7 @@
         public string End { get; set; }
         public string Resource { get; set; }
         public string Text { get; set; }
+        public string Status { get; set; }
+        public string BarColor { get; set; }
     }
 }

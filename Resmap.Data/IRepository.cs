@@ -34,7 +34,7 @@ namespace Resmap.Data
         /// <summary>
         /// Gets a single entity by id with eager false or true  
         /// and included many-to-many reations. 
-        /// e.g. specifying in a string "Tags.Tag"
+        /// e.g. specifying a query string "Tags.Tag"
         /// </summary>
         /// <param name="id"></param>
         /// <param name="includeQuery"></param>
@@ -62,7 +62,7 @@ namespace Resmap.Data
         /// <summary>
         /// Gets all entities with eager false or true
         /// and included many-to-many relations. 
-        /// e.g. specifying in a string "Tags.Tag"
+        /// e.g. specifying a query string "Tags.Tag"
         /// apply where with expression
         /// </summary>
         /// <param name="includeQuery"></param>

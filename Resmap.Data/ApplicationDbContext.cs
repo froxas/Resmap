@@ -39,6 +39,11 @@ namespace Resmap.Data
         public DbSet<CarEvent> CarEvents { get; set; }
         public DbSet<EmployeeEvent> EmployeeEvents { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Status> Status { get; set; }
+
+        // later to remove as it is dependend entities
+        public DbSet<JobTitle> JobTitles{ get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         #endregion
 
@@ -64,8 +69,8 @@ namespace Resmap.Data
             #region entities configuration
 
             modelBuilder.ApplyConfiguration(new ProjectTagConfiguration());
-            modelBuilder.ApplyConfiguration(new RelationTagConfiguration());           
-            
+            modelBuilder.ApplyConfiguration(new RelationTagConfiguration());  
+                        
             #endregion
 
             foreach (var type in _entityTypeProvider.GetEntityTypes())

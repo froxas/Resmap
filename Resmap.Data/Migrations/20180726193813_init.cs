@@ -71,7 +71,7 @@ namespace Resmap.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Department",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -81,11 +81,11 @@ namespace Resmap.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Department", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "JobTitle",
+                name: "JobTitles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -95,7 +95,7 @@ namespace Resmap.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobTitle", x => x.Id);
+                    table.PrimaryKey("PK_JobTitles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,6 +110,21 @@ namespace Resmap.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Note", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Status",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TenantId = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Color = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Status", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,15 +214,15 @@ namespace Resmap.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Employees_Department_DepartmentId",
+                        name: "FK_Employees_Departments_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "Department",
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Employees_JobTitle_JobTitleId",
+                        name: "FK_Employees_JobTitles_JobTitleId",
                         column: x => x.JobTitleId,
-                        principalTable: "JobTitle",
+                        principalTable: "JobTitles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -298,6 +313,7 @@ namespace Resmap.Data.Migrations
                     Start = table.Column<DateTime>(nullable: false),
                     End = table.Column<DateTime>(nullable: false),
                     Resource = table.Column<Guid>(nullable: false),
+                    StatusId = table.Column<Guid>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     EmployeeId = table.Column<Guid>(nullable: true),
                     ProjectId = table.Column<Guid>(nullable: true)
@@ -310,11 +326,17 @@ namespace Resmap.Data.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Events_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Events_Status_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -385,6 +407,11 @@ namespace Resmap.Data.Migrations
                 name: "IX_Events_ProjectId",
                 table: "Events",
                 column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_StatusId",
+                table: "Events",
+                column: "StatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_AddressId",
@@ -458,16 +485,19 @@ namespace Resmap.Data.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
+                name: "Status");
+
+            migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Department");
+                name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "JobTitle");
+                name: "JobTitles");
 
             migrationBuilder.DropTable(
                 name: "Relations");

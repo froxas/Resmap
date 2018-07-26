@@ -13,42 +13,72 @@ namespace Resmap.Data
         {
             context.Database.EnsureCreated();
             string[] departmentsArray = new string[] { "Design", "Development", "Offshore", "Sales" };
+            Guid[] departmentsIds = new Guid[departmentsArray.Length];
             string[] jobTitlesArray = new string[] { "Developer", "Architect", "Manager", "Designer" };
+            Guid[] jobTitlesIds = new Guid[jobTitlesArray.Length];
+            string[] statusArray = new string[] { "Work", "Sick", "Holliday", "Free" };
+            Guid[] statusesIds = new Guid[statusArray.Length];
+            Status[] statuses = new Status[statusArray.Length];
             Employee[] employees = new Employee[65];            
             DateTime startDate = DateTime.UtcNow.AddDays(-60);
 
-            #region Departments
-            
-            Department[] departments = new Department[departmentsArray.Length];
-            Guid[] departmentsIds = new Guid[departmentsArray.Length];
-            for (int i = 0; i < departments.Length; i++)
-            {
-                departments[i] = new Department
+            #region Status
+            if (!context.Status.Any())
+            {                                
+                for (int i = 0; i < statuses.Length; i++)
                 {
-                    Id = Guid.NewGuid(),
-                    Title = departmentsArray[i]
-                };
-                departmentsIds[i] = departments[i].Id;
+                    statuses[i] = new Status
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = statusArray[i]
+                    };
+                    statusesIds[i] = statuses[i].Id;
+                }
+                context.AddRange(statuses);
+                context.SaveChanges();
             }
-            context.AddRange(departments);
-            context.SaveChanges();
 
             #endregion
 
-            #region JobTitle
-            JobTitle[] jobTitles = new JobTitle[jobTitlesArray.Length];
-            Guid[] jobTitlesIds = new Guid[jobTitlesArray.Length];
-            for (int i = 0; i < jobTitles.Length; i++)
+            #region Departments
+            if (!context.Departments.Any())
             {
-                jobTitles[i] = new JobTitle
+                Department[] departments = new Department[departmentsArray.Length];                
+                for (int i = 0; i < departments.Length; i++)
                 {
-                    Id = Guid.NewGuid(),
-                    Title = jobTitlesArray[i]
-                };
-                jobTitlesIds[i] = jobTitles[i].Id;
+                    departments[i] = new Department
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = departmentsArray[i]
+                    };
+                    departmentsIds[i] = departments[i].Id;
+                }
+                context.AddRange(departments);
+                context.SaveChanges();
             }
-            context.AddRange(jobTitles);
-            context.SaveChanges();
+
+
+
+
+            #endregion
+
+            #region JobTitle                        
+            if (!context.JobTitles.Any())
+            {
+                JobTitle[] jobTitles = new JobTitle[jobTitlesArray.Length];                
+                for (int i = 0; i < jobTitles.Length; i++)
+                {
+                    jobTitles[i] = new JobTitle
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = jobTitlesArray[i]
+                    };
+                    jobTitlesIds[i] = jobTitles[i].Id;
+                }
+                context.AddRange(jobTitles);
+                context.SaveChanges();
+            }
+                
             #endregion
 
             #region Relations
@@ -217,7 +247,8 @@ namespace Resmap.Data
                         Start = DateTime.UtcNow.AddDays(-10),
                         End = DateTime.UtcNow.AddDays(15),
                         Resource = employee.Id,
-                        Project = project
+                        Project = project,
+                        Status = statuses[0]
 
                     },
                      new EmployeeEvent
@@ -226,7 +257,8 @@ namespace Resmap.Data
                         Start = DateTime.UtcNow.AddDays(25),
                         End = DateTime.UtcNow.AddDays(120),
                         Resource = employee.Id,
-                        Project = project
+                        Project = project,
+                        Status = statuses[1]
                     }
                 };
 
@@ -247,7 +279,8 @@ namespace Resmap.Data
                         Start = DateTime.UtcNow.AddDays(-10),
                         End = DateTime.UtcNow.AddDays(15),
                         Resource = car.Id,
-                        Employee = employee
+                        Employee = employee,
+                        Status = statuses[2]
                     },
                      new CarEvent
                     {
@@ -255,7 +288,8 @@ namespace Resmap.Data
                         Start = DateTime.UtcNow.AddDays(25),
                         End = DateTime.UtcNow.AddDays(120),
                         Resource = car.Id,
-                        Employee = employee
+                        Employee = employee,
+                        Status = statuses[0]
                     }
                 };
 

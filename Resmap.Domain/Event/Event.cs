@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Resmap.Domain
 {
@@ -17,5 +18,9 @@ namespace Resmap.Domain
 
         [Required]
         public Guid Resource { get; set; }
+
+        [ForeignKey(nameof(Status))]
+        public Guid StatusId { get; set; }
+        public Status Status { get; set; }
     }
 }

@@ -110,7 +110,7 @@ namespace Resmap.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Employee", b =>
@@ -175,9 +175,13 @@ namespace Resmap.Data.Migrations
 
                     b.Property<DateTime>("Start");
 
+                    b.Property<Guid>("StatusId");
+
                     b.Property<Guid>("TenantId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("Events");
 
@@ -197,7 +201,7 @@ namespace Resmap.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobTitle");
+                    b.ToTable("JobTitles");
                 });
 
             modelBuilder.Entity("Resmap.Domain.Note", b =>
@@ -324,6 +328,24 @@ namespace Resmap.Data.Migrations
                     b.ToTable("RelationTag");
                 });
 
+            modelBuilder.Entity("Resmap.Domain.Status", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Color");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<Guid>("TenantId");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Status");
+                });
+
             modelBuilder.Entity("Resmap.Domain.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -348,7 +370,7 @@ namespace Resmap.Data.Migrations
                 {
                     b.HasBaseType("Resmap.Domain.Event");
 
-                    b.Property<Guid>("EmployeeId");
+                    b.Property<Guid?>("EmployeeId");
 
                     b.HasIndex("EmployeeId");
 
@@ -361,7 +383,7 @@ namespace Resmap.Data.Migrations
                 {
                     b.HasBaseType("Resmap.Domain.Event");
 
-                    b.Property<Guid>("ProjectId");
+                    b.Property<Guid?>("ProjectId");
 
                     b.HasIndex("ProjectId");
 
@@ -395,6 +417,14 @@ namespace Resmap.Data.Migrations
                     b.HasOne("Resmap.Domain.Relation", "Subcontractor")
                         .WithMany()
                         .HasForeignKey("SubcontractorId");
+                });
+
+            modelBuilder.Entity("Resmap.Domain.Event", b =>
+                {
+                    b.HasOne("Resmap.Domain.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Resmap.Domain.Project", b =>
@@ -458,16 +488,14 @@ namespace Resmap.Data.Migrations
                 {
                     b.HasOne("Resmap.Domain.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("Resmap.Domain.EmployeeEvent", b =>
                 {
                     b.HasOne("Resmap.Domain.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProjectId");
                 });
 #pragma warning restore 612, 618
         }

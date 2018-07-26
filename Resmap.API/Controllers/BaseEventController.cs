@@ -63,8 +63,7 @@ namespace Resmap.API.Controllers
             return Ok(response);
         }
       
-        [HttpPost()]
-        [ValidateModel]
+        [HttpPost()]        
         public IActionResult CreateEvent([FromBody] TEventForCreacteDto eventToCreate)
         {
             var eventEntity = Mapper.Map<TEventForCreacteDto, TEvent>(eventToCreate);
@@ -78,8 +77,7 @@ namespace Resmap.API.Controllers
             return NoContent();            
         }
        
-        [HttpPut("{id}")]
-        [ValidateModel]
+        [HttpPut("{id}")]        
         public IActionResult UpdateEvent(Guid id, [FromBody] TEventForCreacteDto eventToUpdate)
         {
             var eventFromRepo = _eventService.Get(id);
