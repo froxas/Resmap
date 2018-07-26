@@ -14,7 +14,7 @@ namespace Resmap.API.Controllers
               CarEvent,
               Car,
               CarEventDto,
-              EventForCreationDto,
+              CarEventForCreationDto,
               ResourceCarDto
               >
     {

@@ -65,6 +65,7 @@ namespace Resmap.API
                 cfg.CreateMap<EmployeeEvent, EmployeeEventDto>()
                     .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Project.Title));
                 cfg.CreateMap<EventForCreationDto, EmployeeEvent>();
+                cfg.CreateMap<CarEventForCreationDto, CarEvent>();
                 cfg.CreateMap<EventForCreationDto, CarEvent>();
 
                 cfg.CreateMap<CarEvent, CarEventDto>()

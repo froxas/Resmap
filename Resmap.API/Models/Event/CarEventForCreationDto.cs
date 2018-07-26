@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Resmap.API.Models
 {
-    public class EventForCreationDto
+    public class CarEventForCreationDto
     {
         [Required]
         public DateTime Start { get; set; }
@@ -14,6 +14,6 @@ namespace Resmap.API.Models
         [Required]
         public Guid Resource { get; set; }
 
-        public Guid? ProjectId { get; set; }
+        public Guid? EmployeeId { get; set; }
     }
 }

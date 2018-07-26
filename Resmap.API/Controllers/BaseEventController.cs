@@ -15,7 +15,7 @@ namespace Resmap.API.Controllers
         where TEvent : Event
         where TResource : BaseEntity
         where TEventDto : EventDto
-        where TEventForCreacteDto: EventForCreationDto
+        where TEventForCreacteDto: class
         where TResourceDto : ResourceDto
     {
         public readonly IEventService<TEvent> _eventService;

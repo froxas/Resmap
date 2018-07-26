@@ -7,16 +7,6 @@ using System.Threading.Tasks;
 
 namespace Resmap.Domain
 {
-    /*
-    public abstract class EntityTag
-    {
-        public virtual Guid TagId { set; get; }
-
-        [NotMapped]
-        public virtual Guid EntityId { get; set; }
-    }
-    */
-
     public interface IEntityTag
     {
         Guid TagId { set; get; }
