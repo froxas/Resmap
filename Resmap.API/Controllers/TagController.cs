@@ -6,7 +6,7 @@ using Resmap.Domain;
 namespace Resmap.API.Controllers
 {
     [Route("api/tags")]
-    public class TagController : BaseCrudController<Tag, TagDto, TagDto, TagDto>
+    public class TagController : BaseCrudController<Tag, TagDto, TagDto>
     {
         public TagController(
             ICrudService<Tag> crudService) : base(crudService)

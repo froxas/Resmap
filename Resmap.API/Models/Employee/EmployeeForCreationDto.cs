@@ -3,7 +3,8 @@
 namespace Resmap.API.Models
 {
     public class EmployeeForCreationDto
-    {        
+    {
+        public Guid? Id { get; set; }
         public string EmployeeID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

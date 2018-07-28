@@ -9,8 +9,7 @@ namespace Resmap.API.Controllers
     public class RelationController : BaseCrudTagController<
         Relation, 
         RelationDto, 
-        RelationForCreationDto,
-        RelationForUpdateDto,
+        RelationForCreationDto,        
         RelationTag
         >
     {

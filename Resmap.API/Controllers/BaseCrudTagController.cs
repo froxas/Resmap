@@ -9,12 +9,11 @@ using System.Collections.Generic;
 
 namespace Resmap.API.Controllers
 {
-    public class BaseCrudTagController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto, TJoin> 
-        : BaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto>
+    public class BaseCrudTagController<TEntity, TEntityDto, TEntityForCreacteDto, TJoin> 
+        : BaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto>
         where TEntity : BaseEntity, ITaggable<TJoin>
         where TEntityDto : class
-        where TEntityForCreacteDto : class, ITaggableDto
-        where TEntityForUpdateDto : class, ITaggableDto
+        where TEntityForCreacteDto : class, ITaggableDto        
         where TJoin : IEntityTag, new()
     {
         private readonly string IncludeExpression;
@@ -84,7 +83,7 @@ namespace Resmap.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public override IActionResult Update(Guid id, [FromBody] TEntityForUpdateDto entityToUpdate)
+        public override IActionResult Update(Guid id, [FromBody] TEntityForCreacteDto entityToUpdate)
         {
             var entityFromRepo = _crudService.Get(id, IncludeExpression, true);
 

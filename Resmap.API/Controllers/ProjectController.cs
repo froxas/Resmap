@@ -14,8 +14,7 @@ namespace Resmap.API.Controllers
     public class ProjectController : BaseCrudTagController<
         Project, 
         ProjectDto, 
-        ProjectForCreationDto, 
-        ProjectForUpdateDto,
+        ProjectForCreationDto,         
         ProjectTag
         >
     {        

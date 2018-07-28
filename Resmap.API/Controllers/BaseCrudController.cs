@@ -9,11 +9,10 @@ using System.Collections.Generic;
 
 namespace Resmap.API.Controllers
 {
-    public class BaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto, TEntityForUpdateDto> : Controller
+    public class BaseCrudController<TEntity, TEntityDto, TEntityForCreacteDto> : Controller
         where TEntity : BaseEntity
         where TEntityDto : class
-        where TEntityForCreacteDto : class
-        where TEntityForUpdateDto : class
+        where TEntityForCreacteDto : class        
     {
         public readonly ICrudService<TEntity> _crudService;
 
@@ -70,7 +69,7 @@ namespace Resmap.API.Controllers
         }        
       
         [HttpPut("{id}")]        
-        public virtual IActionResult Update(Guid id, [FromBody] TEntityForUpdateDto entityToUpdate)
+        public virtual IActionResult Update(Guid id, [FromBody] TEntityForCreacteDto entityToUpdate)
         {            
 
             var entityFromRepo = _crudService.Get(id, true);

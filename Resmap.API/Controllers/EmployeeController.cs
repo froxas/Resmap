@@ -13,8 +13,8 @@ namespace Resmap.API.Controllers
     public class EmployeeController : BaseCrudController<
         Employee, 
         EmployeeDto, 
-        EmployeeForCreationDto, 
-        EmployeeForUpdateDto>
+        EmployeeForCreationDto
+        >
     {
         public EmployeeController(
            ICrudService<Employee> crudService) : base(crudService)
