@@ -5,7 +5,7 @@ namespace Resmap.Domain
 {    
     public class CarEvent : Event
     {
-        [ForeignKey(nameof(Employee))]
+        [ForeignKey("Employee")]
         public Guid? EmployeeId { get; set; }
         public Employee Employee { get; set; }
     }

@@ -5,7 +5,7 @@ namespace Resmap.Domain
 {    
     public class EmployeeEvent : Event
     {
-        [ForeignKey(nameof(Project))]
+        [ForeignKey("Project")]
         public Guid? ProjectId { get; set; }
         public Project Project { get; set; }
     }

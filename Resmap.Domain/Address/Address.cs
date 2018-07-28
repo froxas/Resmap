@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Resmap.Domain
+﻿namespace Resmap.Domain
 {  
     public class Address : BaseEntity
     {       

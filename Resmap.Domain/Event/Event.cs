@@ -19,7 +19,7 @@ namespace Resmap.Domain
         [Required]
         public Guid Resource { get; set; }
 
-        [ForeignKey(nameof(Status))]
+        [ForeignKey("Status")]
         public Guid StatusId { get; set; }
         public Status Status { get; set; }
     }

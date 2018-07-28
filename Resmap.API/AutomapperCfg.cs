@@ -55,8 +55,6 @@ namespace Resmap.API
 
                 // Mapping events
                 cfg.CreateMap<Event, EventDto>()
-                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Title))
-                    .ForMember(dest => dest.BarColor, opt => opt.MapFrom(src => src.Status.Color))
                     .ForMember(dest => dest.Start, opt => opt.ResolveUsing(src => {
                         var dt = (DateTime)src.Start; return dt.ToShortDateString();
                     }))
@@ -65,6 +63,8 @@ namespace Resmap.API
                     }));
 
                 cfg.CreateMap<EmployeeEvent, EmployeeEventDto>()
+                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Title))
+                    .ForMember(dest => dest.BarColor, opt => opt.MapFrom(src => src.Status.Color))
                     .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Project.Title));
                 cfg.CreateMap<EmployeeEventForCreationDto, EmployeeEvent>();
                 cfg.CreateMap<CarEventForCreationDto, CarEvent>();
