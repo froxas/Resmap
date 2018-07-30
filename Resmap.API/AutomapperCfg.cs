@@ -65,6 +65,8 @@ namespace Resmap.API
                 cfg.CreateMap<EventForCreationDto, CarEvent>();
 
                 cfg.CreateMap<CarEvent, CarEventDto>()
+                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Title))
+                    .ForMember(dest => dest.BarColor, opt => opt.MapFrom(src => src.Status.Color))
                     .ForMember(dest => dest.Text, opt =>
                         opt.MapFrom(src => $"{src.Employee.FirstName} {src.Employee.LastName}"));
 

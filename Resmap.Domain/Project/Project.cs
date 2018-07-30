@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Resmap.Domain
 {
     public class Project : BaseEntity, ITaggable<ProjectTag>
-    {           
-         
+    {        
         public string ProjectId { get; set; }
         public string Title { get; set; }
         public string Manager { get; set; }

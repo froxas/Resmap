@@ -4,6 +4,11 @@ using System.Linq.Expressions;
 
 namespace Resmap.API.Helpers
 {
+    /// <summary>
+    /// Helper class to build expressions for entity filter, search
+    /// needs  to be implemented still
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class FilterExpressionBuilder<T>
     {
         public static Expression<Func<T, bool>> 
